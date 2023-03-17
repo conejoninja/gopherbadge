@@ -3,6 +3,8 @@ package main
 import (
 	"image/color"
 	"machine"
+	"time"
+
 	"tinygo.org/x/drivers/lis3dh"
 
 	"tinygo.org/x/drivers/st7789"
@@ -86,8 +88,28 @@ func main() {
 	black := color.RGBA{0, 0, 0, 255}
 	display.FillScreen(black)
 
-	snakeGame.Start()
-	Leds()
-	myNameIs("@_CONEJO")
+	for {
+		switch menu() {
+		case 0:
+			Badge()
+			break
+		case 1:
+			snakeGame.Start()
+			break
+		case 2:
+			Leds()
+			break
+		case 3:
+			Accel3D()
+			break
+		case 4:
+			Music()
+			break
+		default:
+			break
+		}
+		println("LOOP")
+		time.Sleep(1 * time.Second)
+	}
 
 }
