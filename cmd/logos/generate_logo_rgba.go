@@ -6,8 +6,6 @@ import (
 	"image/jpeg"
 	"log"
 	"os"
-	"strings"
-	"text/template"
 )
 
 func GenerateLogoRGBAFile(filepath string) {
@@ -36,44 +34,17 @@ func generateLogoRGBA(filepath string) []color.RGBA {
 }
 
 func convertToString(colors []color.RGBA) string {
-	var content strings.Builder
-	var err error
-
-	for i, c := range colors {
-		str := fmt.Sprintf("{%d, %d, %d, %d}", c.R, c.G, c.B, c.A)
-		_, err = content.WriteString(str)
-		if err != nil {
-			log.Fatal("failed to write string")
-		}
-
-		if i < len(colors)-1 {
-			_, err = content.WriteString(", ")
-			if err != nil {
-				log.Fatal("failed to write string")
-			}
-		}
+	str := ""
+	for _, c := range colors {
+		str += fmt.Sprintf("%02x%02x%02x", c.R, c.G, c.B)
 	}
 
-	return content.String()
+	return str
 }
 
 func generateFile(colorsStr string) {
-	tmp, err := template.ParseFiles("./cmd/logos/logo-template.txt")
+	err := os.WriteFile("logo.bin", []byte(colorsStr), 0644)
 	if err != nil {
-		log.Fatal("failed to parse template", err)
-	}
-
-	f, err := os.Create("logo.go")
-	if err != nil {
-		log.Fatal("failed to create output file", err)
-	}
-
-	type Colors struct {
-		LogoRGBA string
-	}
-
-	err = tmp.Execute(f, Colors{LogoRGBA: colorsStr})
-	if err != nil {
-		log.Fatal("failed to execute template", err)
+		log.Fatal(err)
 	}
 }

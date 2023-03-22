@@ -1,13 +1,15 @@
 package main
 
 import (
+	_ "embed"
 	"image/color"
+	"strconv"
 	"time"
-
 	"tinygo.org/x/tinydraw"
 	"tinygo.org/x/tinyfont"
 	"tinygo.org/x/tinyfont/freesans"
 	"tinygo.org/x/tinyfont/gophers"
+	"unsafe"
 )
 
 const (
@@ -35,6 +37,9 @@ var rainbow []color.RGBA
 var pressed uint8
 var quit bool
 
+//go:embed logo.bin
+var badgeLogo string
+
 func Badge() {
 	setNameAndTitle()
 	quit = false
@@ -46,6 +51,10 @@ func Badge() {
 	}
 
 	for {
+		showLogoBin()
+		if quit {
+			break
+		}
 		logo()
 		if quit {
 			break
@@ -281,4 +290,30 @@ func getRainbowRGB(i uint8) color.RGBA {
 	}
 	i -= 170
 	return color.RGBA{0, i * 3, 255 - i*3, 255}
+}
+
+func showLogoBin() {
+	var row = []color.RGBA{}
+	row = make([]color.RGBA, WIDTH)
+	unsafeBadgeLogo := unsafe.Slice(unsafe.StringData(badgeLogo), len(badgeLogo))
+	for i := 0; i < HEIGHT; i++ {
+		for j := 0; j < WIDTH; j++ {
+			values, err := strconv.ParseUint(string(unsafeBadgeLogo[6*(WIDTH*i+j):6*(WIDTH*i+j+1)]), 16, 32)
+
+			if err != nil {
+				println(err)
+				//return RGB{}, err
+			}
+
+			row[j] = color.RGBA{
+				R: uint8(values >> 16),
+				G: uint8((values >> 8) & 0xFF),
+				B: uint8(values & 0xFF),
+				A: 255,
+			}
+		}
+		display.FillRectangleWithBuffer(0, int16(i), WIDTH, 1, row)
+	}
+	time.Sleep(logoDisplayTime)
+
 }
