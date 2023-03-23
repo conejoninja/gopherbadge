@@ -10,6 +10,10 @@ import (
 const (
 	tinygoLogo         = "./cmd/assets/tinygo.jpg"
 	purpleHardwareLogo = "./cmd/assets/purpleHardware.jpg"
+	gopherconEU        = "./cmd/assets/gopherconeu.jpg"
+	gopherconUK        = "./cmd/assets/gopherconuk.jpg"
+	gopherconUS        = "./cmd/assets/gopherconus.jpg"
+	wasmio             = "./cmd/assets/wasmio.jpg"
 )
 
 func main() {
@@ -28,7 +32,11 @@ func main() {
 
 func confs() map[string]string {
 	return map[string]string{
-		"tinygo": tinygoLogo,
-		"purple": purpleHardwareLogo,
+		"tinygo":      tinygoLogo,
+		"purple":      purpleHardwareLogo,
+		"gopherconeu": gopherconEU,
+		"gopherconuk": gopherconUK,
+		"gopherconus": gopherconUS,
+		"wasmio":      wasmio,
 	}
 }
