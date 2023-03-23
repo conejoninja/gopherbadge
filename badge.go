@@ -5,11 +5,14 @@ import (
 	"image/color"
 	"strconv"
 	"time"
+	"unsafe"
+
 	"tinygo.org/x/tinydraw"
 	"tinygo.org/x/tinyfont"
 	"tinygo.org/x/tinyfont/freesans"
 	"tinygo.org/x/tinyfont/gophers"
-	"unsafe"
+
+	qrcode "github.com/skip2/go-qrcode"
 )
 
 const (
@@ -51,6 +54,10 @@ func Badge() {
 	}
 
 	for {
+		QR()
+		if quit {
+			break
+		}
 		showLogoBin()
 		if quit {
 			break
@@ -279,6 +286,9 @@ func logo() {
 	tinyfont.WriteLine(&display, &freesans.Regular18pt7b, 6, 153, "Hardware by", white)
 
 	time.Sleep(logoDisplayTime)
+	if !btnB.Get() {
+		quit = true
+	}
 }
 
 func getRainbowRGB(i uint8) color.RGBA {
@@ -315,5 +325,37 @@ func showLogoBin() {
 		display.FillRectangleWithBuffer(0, int16(i), WIDTH, 1, row)
 	}
 	time.Sleep(logoDisplayTime)
+	if !btnB.Get() {
+		quit = true
+	}
+}
 
+func QR() {
+	qr, err := qrcode.New("GopherBadge Rulez - @conejo@social.tinygo.org", qrcode.Medium)
+	if err != nil {
+		println(err, 123)
+	}
+
+	qrbytes := qr.Bitmap()
+	size := int16(len(qrbytes))
+
+	factor := int16(HEIGHT / len(qrbytes))
+
+	bx := (WIDTH - size*factor) / 2
+	by := (HEIGHT - size*factor) / 2
+	display.FillScreen(color.RGBA{109, 0, 140, 255})
+	for y := int16(0); y < size; y++ {
+		for x := int16(0); x < size; x++ {
+			if qrbytes[y][x] {
+				display.FillRectangle(bx+x*factor, by+y*factor, factor, factor, colors[0])
+			} else {
+				display.FillRectangle(bx+x*factor, by+y*factor, factor, factor, colors[1])
+			}
+		}
+	}
+
+	time.Sleep(logoDisplayTime)
+	if !btnB.Get() {
+		quit = true
+	}
 }
