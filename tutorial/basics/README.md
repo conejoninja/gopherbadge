@@ -23,13 +23,11 @@ https://tinygo.org/getting-started/
 
 ## Connecting the Gopher badge to your computer
 
-![welcome to gopher badge](../../assets/welcome.jpg)
+![welcome to gopher badge](./assets/welcome.jpg)
 
 Plug the Gopher badge into your computer using a USB cable. There may be one provided in your starter kit.
 
-Make sure that the Gopher badge is on.
-
-![on off switch](../../assets/on_off.jpg)
+![usb](./assets/usb.png)
 
 ## Running the code
 
@@ -53,14 +51,12 @@ This tests that you can compile and flash your Gopher badge with TinyGo code, by
 tinygo flash -target gopher-badge ./step0
 ```
 
-![flashing the board](../../assets/getting_flashed.jpg)
-
 Once the Gopher badge is flashed correctly, the built-in LED labeled "D13" (on the back) should start to turn on and off once per second. Now everything is setup correctly and you are ready to continue.
 
-![step 0](./assets/step0.jpg)
+![step 0](./assets/step0.gif)
 
 
-### step1.go - Built-in LED, START Button
+### step1.go - Built-in LED, A Button
 
 Run the code.
 
@@ -68,13 +64,13 @@ Run the code.
 tinygo flash -target gopher-badge ./step1
 ```
 
-When you press the START button, the built-in LED should turn on.
+When you press the A button, the built-in LED on the back should turn on.
 
-![start button](./assets/step1.jpg)
+![step1](./assets/step1.png)
 
 *Challenge:* 
 See if you can modify [./step1/main.go](step1/main.go) so that the LED turns on if
-the _SELECT_ button is pressed instead of the _START_ button.
+the _B_ button is pressed instead of the _A_ button.
 
 ### step2.go - Neopixels
 
@@ -83,8 +79,6 @@ Run the code.
 ```
 tinygo flash -target gopher-badge ./step2
 ```
-
-![step 2 location](./assets/step2.jpg)
 
 
 The 2 neopixels should light up green and red alternatively.
@@ -121,7 +115,7 @@ tinygo flash -target gopher-badge ./step4/main.go
 
 The message "Hello Gophers!" should appear on the display.
 
-![step5](./assets/step4.jpg)
+![step4](./assets/step4.png)
 
 
 
@@ -133,7 +127,7 @@ Run the code.
 tinygo flash -target gopher-badge ./step5/main.go
 ```
 
-![step6](./assets/step5.jpg)
+![step5](./assets/step5.png)
 
 
 The display will show some blue circle that represent that buttons on the board.
@@ -148,7 +142,7 @@ Run the code.
 tinygo flash -target gopher-badge ./step6
 ```
 
-![step7](./assets/step6.jpg)
+![step6](./assets/step6.png)
 
 The display will show a bar for each X,Y,Z axis. Move the Gopher badge to see it in action.
 
@@ -163,12 +157,26 @@ tinygo flash -target gopher-badge ./step7/main.go
 Press the buttons and create your melody.
 
 
-Good job in completing the basic tutorials. Now can check out the more complicated 
+### step8.go - Buttons, USB midi interface
+
+Run the code.
+
+```
+tinygo flash -target gopher-badge ./step8/main.go
+```
+
+Go to any online midi player with USB capabilities, like [Muted.io/piano](https://muted.io/piano/). Make sure the Gopher Badge MIDI is enabled (this website works better in Chrome, other browsers might not detect the 
+Gopher Badge as a MIDI device).
+Press the buttons and create your melody.
+
+![step6](./assets/step8.png)
+
+Good job in completing the basic tutorials. Now can check out the more complicated
 tutorials
 
 ### Snake Game
 
-[Play the famous Snake game on the gopher-badge.](../snake/README.md)
+[Play the famous Snake game on the Gopher badge.](../snake/README.md)
 
 ### My Name Is
 

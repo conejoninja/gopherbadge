@@ -5,18 +5,7 @@ import (
 	"time"
 )
 
-var bzrPin machine.Pin
-
 func main() {
-
-	// Enable the speaker
-	speaker := machine.SPEAKER_ENABLE
-	speaker.Configure(machine.PinConfig{Mode: machine.PinOutput})
-	speaker.High()
-
-	// buzzer setup
-	bzrPin = machine.SPEAKER
-	bzrPin.Configure(machine.PinConfig{Mode: machine.PinOutput})
 
 	btnA = machine.BUTTON_A
 	btnB = machine.BUTTON_B
