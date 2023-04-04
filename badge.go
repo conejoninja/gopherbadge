@@ -44,7 +44,7 @@ var quit bool
 var badgeLogo string
 
 func Badge() {
-	setNameAndTitle()
+	setCustomData()
 	quit = false
 	display.FillScreen(colors[BLACK])
 
@@ -54,19 +54,11 @@ func Badge() {
 	}
 
 	for {
-		QR()
-		if quit {
-			break
-		}
 		showLogoBin()
 		if quit {
 			break
 		}
-		logo()
-		if quit {
-			break
-		}
-		scroll("This badge", "runs", "TINYGO")
+		logoPurpleHardware()
 		if quit {
 			break
 		}
@@ -74,7 +66,15 @@ func Badge() {
 		if quit {
 			break
 		}
-		blinkyRainbow(YourTitle1, YourTitle2)
+		blinkyRainbow(YourTitleA1, YourTitleA2)
+		if quit {
+			break
+		}
+		scroll("This badge", "runs", "TINYGO")
+		if quit {
+			break
+		}
+		QR()
 		if quit {
 			break
 		}
@@ -246,21 +246,7 @@ func scroll(topline, middleline, bottomline string) {
 	display.StopScroll()
 }
 
-func setNameAndTitle() {
-	if YourName == "" {
-		YourName = DefaultName
-	}
-
-	if YourTitle1 == "" {
-		YourTitle1 = DefaultTitle1
-	}
-
-	if YourTitle2 == "" {
-		YourTitle2 = DefaultTitle2
-	}
-}
-
-func logo() {
+func logoPurpleHardware() {
 	bgColor := color.RGBA{109, 0, 140, 255}
 	white := color.RGBA{255, 255, 255, 255}
 	display.FillScreen(bgColor)
@@ -285,7 +271,7 @@ func logo() {
 	tinyfont.WriteLine(&display, &freesans.Regular18pt7b, 6, 109, "Purple", white)
 	tinyfont.WriteLine(&display, &freesans.Regular18pt7b, 6, 153, "Hardware by", white)
 
-	time.Sleep(logoDisplayTime)
+	time.Sleep(logoDisplayTime / 3)
 	if !btnB.Get() {
 		quit = true
 	}
@@ -357,5 +343,43 @@ func QR() {
 	time.Sleep(logoDisplayTime)
 	if !btnB.Get() {
 		quit = true
+	}
+}
+
+func setCustomData() {
+	if YourName == "" {
+		YourName = DefaultName
+	}
+
+	if YourTitleA1 == "" {
+		YourTitleA1 = DefaultTitleA1
+	}
+
+	if YourTitleA2 == "" {
+		YourTitleA2 = DefaultTitleA2
+	}
+
+	if YourTitleB1 == "" {
+		YourTitleB1 = DefaultTitleB1
+	}
+
+	if YourTitleB2 == "" {
+		YourTitleB2 = DefaultTitleB2
+	}
+
+	if YourMarqueeTop == "" {
+		YourMarqueeTop = DefaultMarqueeTop
+	}
+
+	if YourMarqueeMiddle == "" {
+		YourMarqueeMiddle = DefaultMarqueeMiddle
+	}
+
+	if YourMarqueeBottom == "" {
+		YourMarqueeBottom = DefaultMarqueeBottom
+	}
+
+	if YourQRText == "" {
+		YourQRText = DefaultQRText
 	}
 }
