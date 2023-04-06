@@ -2,10 +2,13 @@ package logos
 
 import (
 	"fmt"
+	"image"
 	"image/color"
 	"image/jpeg"
 	"log"
 	"os"
+
+	draw2 "golang.org/x/image/draw"
 )
 
 func GenerateLogoRGBAFile(filepath string) {
@@ -47,4 +50,16 @@ func generateFile(colorsStr string) {
 	if err != nil {
 		log.Fatal(err)
 	}
+}
+
+func Resize(src string) {
+	srcImg, _ := os.Open(src)
+	img, _ := jpeg.Decode(srcImg)
+
+	dst := image.NewRGBA(image.Rect(0, 0, 320, 240))
+	draw2.BiLinear.Scale(dst, image.Rect(0, 0, 320, 240), img, image.Rect(0, 0, img.Bounds().Max.X, img.Bounds().Max.Y), draw2.Over, nil)
+
+	fDst, _ := os.Create(src)
+	defer fDst.Close()
+	jpeg.Encode(fDst, dst, &jpeg.Options{Quality: 90})
 }

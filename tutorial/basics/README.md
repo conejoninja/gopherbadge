@@ -165,11 +165,24 @@ Run the code.
 tinygo flash -target gopher-badge ./step8/main.go
 ```
 
-Go to any online midi player with USB capabilities, like [Muted.io/piano](https://muted.io/piano/). Make sure the Gopher Badge MIDI is enabled (this website works better in Chrome, other browsers might not detect the 
+Go to any online midi player with USB capabilities, like [Muted.io/piano](https://muted.io/piano/). Make sure the Gopher Badge MIDI is enabled (this website works better in Chrome, other browsers might not detect the
 Gopher Badge as a MIDI device).
 Press the buttons and create your melody.
 
+
 ![step6](./assets/step8.png)
+
+
+### step9.go - Buttons, Accelerometer, USB HID interface
+
+Run the code.
+
+```
+tinygo flash -target gopher-badge ./step9/main.go
+```
+
+Your Gopher Badge, connected to a computer, will act as a mouse now. Pressing the A button will perform a reft click, B button a right click, and inclining the badge will move the mouse's pointer thanks to the 
+badge's built-in accelerometer.
 
 Good job in completing the basic tutorials. Now can check out the more complicated
 tutorials

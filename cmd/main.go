@@ -3,7 +3,6 @@ package main
 import (
 	"flag"
 	"fmt"
-
 	"github.com/conejoninja/gopherbadge/cmd/logos"
 )
 
@@ -19,8 +18,18 @@ const (
 
 func main() {
 	conf := flag.String("conf", tinygoLogo, "Choose the conference logo you want to (e.g.: tinygo)")
+	filepath := flag.String("filepath", "", "Fullpath of the image, only when -conf=custom")
 	flag.Parse()
 
+	if *conf == "custom" {
+		if *filepath == "" {
+			fmt.Println("-filepath can not be empty if -conf=custom")
+			return
+		}
+		logos.Resize(*filepath)
+		logos.GenerateLogoRGBAFile(*filepath)
+		return
+	}
 	c := confs()
 	logo, ok := c[*conf]
 	if !ok {
