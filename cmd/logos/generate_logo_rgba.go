@@ -53,8 +53,10 @@ func generateFile(colorsStr string) {
 }
 
 func Resize(src string) {
-	srcImg, _ := os.Open(src)
-	img, _ := jpeg.Decode(srcImg)
+	srcImg, err := os.Open(src)
+	fmt.Println("ERR1", err)
+	img, err := jpeg.Decode(srcImg)
+	fmt.Println("ERR2", err)
 
 	dst := image.NewRGBA(image.Rect(0, 0, 320, 240))
 	draw2.BiLinear.Scale(dst, image.Rect(0, 0, 320, 240), img, image.Rect(0, 0, img.Bounds().Max.X, img.Bounds().Max.Y), draw2.Over, nil)
