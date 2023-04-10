@@ -70,15 +70,15 @@ func Badge() {
 		if quit {
 			break
 		}
-		scroll("This badge", "runs", "TINYGO")
+		scroll(YourMarqueeTop, YourMarqueeMiddle, YourMarqueeBottom)
 		if quit {
 			break
 		}
-		QR()
+		QR(YourQRText)
 		if quit {
 			break
 		}
-		blinkyRainbow("Printer Party", "17-19 Marzo")
+		blinkyRainbow(YourTitleB1, YourTitleB2)
 		if quit {
 			break
 		}
@@ -316,8 +316,8 @@ func showLogoBin() {
 	}
 }
 
-func QR() {
-	qr, err := qrcode.New("GopherBadge Rulez - @conejo@social.tinygo.org", qrcode.Medium)
+func QR(msg string) {
+	qr, err := qrcode.New(msg, qrcode.Medium)
 	if err != nil {
 		println(err, 123)
 	}
