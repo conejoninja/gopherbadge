@@ -118,22 +118,15 @@ func myNameIs(name string) {
 	tinyfont.WriteLine(&display, &freesans.Oblique9pt7b, (WIDTH-int16(w32))/2, 54, "my name is", colors[WHITE])
 
 	// middle text
-	w32, _ = tinyfont.LineWidth(&freesans.Bold24pt7b, name)
-	if w32 < 300 {
+	w32, size := getFontWidthSize(name)
+	if size == 24 {
 		tinyfont.WriteLine(&display, &freesans.Bold24pt7b, (WIDTH-int16(w32))/2, 140, name, colors[BLACK])
+	} else if size == 18 {
+		tinyfont.WriteLine(&display, &freesans.Bold18pt7b, (WIDTH-int16(w32))/2, 140, name, colors[BLACK])
+	} else if size == 12 {
+		tinyfont.WriteLine(&display, &freesans.Bold12pt7b, (WIDTH-int16(w32))/2, 140, name, colors[BLACK])
 	} else {
-		w32, _ = tinyfont.LineWidth(&freesans.Bold18pt7b, name)
-		if w32 < 300 {
-			tinyfont.WriteLine(&display, &freesans.Bold18pt7b, (WIDTH-int16(w32))/2, 140, name, colors[BLACK])
-		} else {
-			w32, _ = tinyfont.LineWidth(&freesans.Bold12pt7b, name)
-			if w32 < 300 {
-				tinyfont.WriteLine(&display, &freesans.Bold12pt7b, (WIDTH-int16(w32))/2, 140, name, colors[BLACK])
-			} else {
-				w32, _ = tinyfont.LineWidth(&freesans.Bold9pt7b, name)
-				tinyfont.WriteLine(&display, &freesans.Bold9pt7b, (WIDTH-int16(w32))/2, 140, name, colors[BLACK])
-			}
-		}
+		tinyfont.WriteLine(&display, &freesans.Bold9pt7b, (WIDTH-int16(w32))/2, 140, name, colors[BLACK])
 	}
 
 	// gophers
@@ -143,24 +136,7 @@ func myNameIs(name string) {
 func myNameIsRainbow(name string) {
 	myNameIs(name)
 
-	w32, _ := tinyfont.LineWidth(&freesans.Bold24pt7b, name)
-	size := 24
-	if w32 < 300 {
-		size = 24
-	} else {
-		w32, _ = tinyfont.LineWidth(&freesans.Bold18pt7b, name)
-		if w32 < 300 {
-			size = 18
-		} else {
-			w32, _ = tinyfont.LineWidth(&freesans.Bold12pt7b, name)
-			if w32 < 300 {
-				size = 12
-			} else {
-				w32, _ = tinyfont.LineWidth(&freesans.Bold9pt7b, name)
-				size = 9
-			}
-		}
-	}
+	w32, size := getFontWidthSize(name)
 	for i := 0; i < 230; i++ {
 		if size == 24 {
 			tinyfont.WriteLineColors(&display, &freesans.Bold24pt7b, (WIDTH-int16(w32))/2, 140, name, rainbow[i:])
@@ -183,16 +159,48 @@ func blinky(topline, bottomline string) {
 	display.FillScreen(colors[WHITE])
 
 	// calculate the width of the text so we could center them later
-	w32top, _ := tinyfont.LineWidth(&freesans.Bold24pt7b, topline)
-	w32bottom, _ := tinyfont.LineWidth(&freesans.Bold24pt7b, bottomline)
+	w32top, sizetop := getFontWidthSize(topline)
+	w32bottom, sizebottom := getFontWidthSize(bottomline)
 	for i := int16(0); i < 10; i++ {
 		// show black text
-		tinyfont.WriteLine(&display, &freesans.Bold24pt7b, (WIDTH-int16(w32top))/2, 100, topline, colors[BLACK])
-		tinyfont.WriteLine(&display, &freesans.Bold24pt7b, (WIDTH-int16(w32bottom))/2, 200, bottomline, colors[BLACK])
+		if sizetop == 24 {
+			tinyfont.WriteLine(&display, &freesans.Bold24pt7b, (WIDTH-int16(w32top))/2, 100, topline, colors[BLACK])
+		} else if sizetop == 18 {
+			tinyfont.WriteLine(&display, &freesans.Bold18pt7b, (WIDTH-int16(w32top))/2, 100, topline, colors[BLACK])
+		} else if sizetop == 12 {
+			tinyfont.WriteLine(&display, &freesans.Bold12pt7b, (WIDTH-int16(w32top))/2, 100, topline, colors[BLACK])
+		} else {
+			tinyfont.WriteLine(&display, &freesans.Bold9pt7b, (WIDTH-int16(w32top))/2, 100, topline, colors[BLACK])
+		}
+		if sizebottom == 24 {
+			tinyfont.WriteLine(&display, &freesans.Bold24pt7b, (WIDTH-int16(w32bottom))/2, 200, bottomline, colors[BLACK])
+		} else if sizebottom == 18 {
+			tinyfont.WriteLine(&display, &freesans.Bold18pt7b, (WIDTH-int16(w32bottom))/2, 200, bottomline, colors[BLACK])
+		} else if sizebottom == 12 {
+			tinyfont.WriteLine(&display, &freesans.Bold12pt7b, (WIDTH-int16(w32bottom))/2, 200, bottomline, colors[BLACK])
+		} else {
+			tinyfont.WriteLine(&display, &freesans.Bold9pt7b, (WIDTH-int16(w32bottom))/2, 200, bottomline, colors[BLACK])
+		}
 
 		// repeat the other way around
-		tinyfont.WriteLine(&display, &freesans.Bold24pt7b, (WIDTH-int16(w32top))/2, 100, topline, colors[WHITE])
-		tinyfont.WriteLine(&display, &freesans.Bold24pt7b, (WIDTH-int16(w32bottom))/2, 200, bottomline, colors[WHITE])
+		if sizetop == 24 {
+			tinyfont.WriteLine(&display, &freesans.Bold24pt7b, (WIDTH-int16(w32top))/2, 100, topline, colors[WHITE])
+		} else if sizetop == 18 {
+			tinyfont.WriteLine(&display, &freesans.Bold18pt7b, (WIDTH-int16(w32top))/2, 100, topline, colors[WHITE])
+		} else if sizetop == 12 {
+			tinyfont.WriteLine(&display, &freesans.Bold12pt7b, (WIDTH-int16(w32top))/2, 100, topline, colors[WHITE])
+		} else {
+			tinyfont.WriteLine(&display, &freesans.Bold9pt7b, (WIDTH-int16(w32top))/2, 100, topline, colors[WHITE])
+		}
+		if sizebottom == 24 {
+			tinyfont.WriteLine(&display, &freesans.Bold24pt7b, (WIDTH-int16(w32bottom))/2, 200, bottomline, colors[WHITE])
+		} else if sizebottom == 18 {
+			tinyfont.WriteLine(&display, &freesans.Bold18pt7b, (WIDTH-int16(w32bottom))/2, 200, bottomline, colors[WHITE])
+		} else if sizebottom == 12 {
+			tinyfont.WriteLine(&display, &freesans.Bold12pt7b, (WIDTH-int16(w32bottom))/2, 200, bottomline, colors[WHITE])
+		} else {
+			tinyfont.WriteLine(&display, &freesans.Bold9pt7b, (WIDTH-int16(w32bottom))/2, 200, bottomline, colors[WHITE])
+		}
 
 		if !btnB.Get() {
 			quit = true
@@ -205,12 +213,28 @@ func blinkyRainbow(topline, bottomline string) {
 	display.FillScreen(colors[WHITE])
 
 	// calculate the width of the text so we could center them later
-	w32top, _ := tinyfont.LineWidth(&freesans.Bold24pt7b, topline)
-	w32bottom, _ := tinyfont.LineWidth(&freesans.Bold24pt7b, bottomline)
+	w32top, sizetop := getFontWidthSize(topline)
+	w32bottom, sizebottom := getFontWidthSize(bottomline)
 	for i := int16(0); i < 20; i++ {
 		// show black text
-		tinyfont.WriteLine(&display, &freesans.Bold24pt7b, (WIDTH-int16(w32top))/2, 100, topline, getRainbowRGB(uint8(i*12)))
-		tinyfont.WriteLine(&display, &freesans.Bold24pt7b, (WIDTH-int16(w32bottom))/2, 200, bottomline, getRainbowRGB(uint8(i*12)))
+		if sizetop == 24 {
+			tinyfont.WriteLine(&display, &freesans.Bold24pt7b, (WIDTH-int16(w32top))/2, 100, topline, getRainbowRGB(uint8(i*12)))
+		} else if sizetop == 18 {
+			tinyfont.WriteLine(&display, &freesans.Bold18pt7b, (WIDTH-int16(w32top))/2, 100, topline, getRainbowRGB(uint8(i*12)))
+		} else if sizetop == 12 {
+			tinyfont.WriteLine(&display, &freesans.Bold12pt7b, (WIDTH-int16(w32top))/2, 100, topline, getRainbowRGB(uint8(i*12)))
+		} else {
+			tinyfont.WriteLine(&display, &freesans.Bold9pt7b, (WIDTH-int16(w32top))/2, 100, topline, getRainbowRGB(uint8(i*12)))
+		}
+		if sizebottom == 24 {
+			tinyfont.WriteLine(&display, &freesans.Bold24pt7b, (WIDTH-int16(w32bottom))/2, 200, bottomline, getRainbowRGB(uint8(i*12)))
+		} else if sizebottom == 18 {
+			tinyfont.WriteLine(&display, &freesans.Bold18pt7b, (WIDTH-int16(w32bottom))/2, 200, bottomline, getRainbowRGB(uint8(i*12)))
+		} else if sizebottom == 12 {
+			tinyfont.WriteLine(&display, &freesans.Bold12pt7b, (WIDTH-int16(w32bottom))/2, 200, bottomline, getRainbowRGB(uint8(i*12)))
+		} else {
+			tinyfont.WriteLine(&display, &freesans.Bold9pt7b, (WIDTH-int16(w32bottom))/2, 200, bottomline, getRainbowRGB(uint8(i*12)))
+		}
 
 		if !btnB.Get() {
 			quit = true
@@ -223,12 +247,37 @@ func scroll(topline, middleline, bottomline string) {
 	display.FillScreen(colors[WHITE])
 
 	// calculate the width of the text, so we could center them later
-	w32top, _ := tinyfont.LineWidth(&freesans.Bold24pt7b, topline)
-	w32middle, _ := tinyfont.LineWidth(&freesans.Bold24pt7b, middleline)
-	w32bottom, _ := tinyfont.LineWidth(&freesans.Bold24pt7b, bottomline)
-	tinyfont.WriteLine(&display, &freesans.Bold24pt7b, (WIDTH-int16(w32top))/2, 70, topline, getRainbowRGB(200))
-	tinyfont.WriteLine(&display, &freesans.Bold24pt7b, (WIDTH-int16(w32middle))/2, 120, middleline, getRainbowRGB(80))
-	tinyfont.WriteLine(&display, &freesans.Bold24pt7b, (WIDTH-int16(w32bottom))/2, 200, bottomline, getRainbowRGB(120))
+	w32top, sizetop := getFontWidthSize(topline)
+	w32middle, sizemiddle := getFontWidthSize(middleline)
+	w32bottom, sizebottom := getFontWidthSize(bottomline)
+
+	if sizetop == 24 {
+		tinyfont.WriteLine(&display, &freesans.Bold24pt7b, (WIDTH-int16(w32top))/2, 70, topline, getRainbowRGB(200))
+	} else if sizetop == 18 {
+		tinyfont.WriteLine(&display, &freesans.Bold18pt7b, (WIDTH-int16(w32top))/2, 70, topline, getRainbowRGB(200))
+	} else if sizetop == 12 {
+		tinyfont.WriteLine(&display, &freesans.Bold12pt7b, (WIDTH-int16(w32top))/2, 70, topline, getRainbowRGB(200))
+	} else {
+		tinyfont.WriteLine(&display, &freesans.Bold9pt7b, (WIDTH-int16(w32top))/2, 70, topline, getRainbowRGB(200))
+	}
+	if sizemiddle == 24 {
+		tinyfont.WriteLine(&display, &freesans.Bold24pt7b, (WIDTH-int16(w32middle))/2, 120, middleline, getRainbowRGB(80))
+	} else if sizemiddle == 18 {
+		tinyfont.WriteLine(&display, &freesans.Bold18pt7b, (WIDTH-int16(w32middle))/2, 120, middleline, getRainbowRGB(80))
+	} else if sizemiddle == 12 {
+		tinyfont.WriteLine(&display, &freesans.Bold12pt7b, (WIDTH-int16(w32middle))/2, 120, middleline, getRainbowRGB(80))
+	} else {
+		tinyfont.WriteLine(&display, &freesans.Bold9pt7b, (WIDTH-int16(w32middle))/2, 120, middleline, getRainbowRGB(80))
+	}
+	if sizebottom == 24 {
+		tinyfont.WriteLine(&display, &freesans.Bold24pt7b, (WIDTH-int16(w32bottom))/2, 200, bottomline, getRainbowRGB(120))
+	} else if sizebottom == 18 {
+		tinyfont.WriteLine(&display, &freesans.Bold18pt7b, (WIDTH-int16(w32bottom))/2, 200, bottomline, getRainbowRGB(120))
+	} else if sizebottom == 12 {
+		tinyfont.WriteLine(&display, &freesans.Bold12pt7b, (WIDTH-int16(w32bottom))/2, 200, bottomline, getRainbowRGB(120))
+	} else {
+		tinyfont.WriteLine(&display, &freesans.Bold9pt7b, (WIDTH-int16(w32bottom))/2, 200, bottomline, getRainbowRGB(120))
+	}
 
 	display.SetScrollArea(0, 0)
 	for k := 0; k < 4; k++ {
@@ -344,6 +393,28 @@ func QR(msg string) {
 	if !btnB.Get() {
 		quit = true
 	}
+}
+
+func getFontWidthSize(text string) (w32 uint32, size byte) {
+	w32, _ = tinyfont.LineWidth(&freesans.Bold24pt7b, text)
+	size = 24
+	if w32 < 300 {
+		size = 24
+	} else {
+		w32, _ = tinyfont.LineWidth(&freesans.Bold18pt7b, text)
+		if w32 < 300 {
+			size = 18
+		} else {
+			w32, _ = tinyfont.LineWidth(&freesans.Bold12pt7b, text)
+			if w32 < 300 {
+				size = 12
+			} else {
+				w32, _ = tinyfont.LineWidth(&freesans.Bold9pt7b, text)
+				size = 9
+			}
+		}
+	}
+	return
 }
 
 func setCustomData() {
