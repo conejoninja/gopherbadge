@@ -17,26 +17,23 @@ var accel lis3dh.Device
 var bzrPin machine.Pin
 var btnA, btnB, btnUp, btnLeft, btnDown, btnRight machine.Pin
 
-var snakeGame = Game{
-	colors: []color.RGBA{
-		color.RGBA{0, 0, 0, 255},
-		color.RGBA{0, 200, 0, 255},
-		color.RGBA{250, 0, 0, 255},
-		color.RGBA{160, 160, 160, 255},
-	},
-	snake: Snake{
-		body: [768][2]int16{
-			{0, 3},
-			{0, 2},
-			{0, 1},
-		},
-		length:    3,
-		direction: 3,
-	},
-	appleX: -1,
-	appleY: -1,
-	status: START,
+const (
+	BLACK = iota
+	WHITE
+	RED
+	SNAKE
+	TEXT
+)
+
+var colors = []color.RGBA{
+	color.RGBA{0, 0, 0, 255},
+	color.RGBA{255, 255, 255, 255},
+	color.RGBA{250, 0, 0, 255},
+	color.RGBA{0, 200, 0, 255},
+	color.RGBA{160, 160, 160, 255},
 }
+
+var snakeGame = NewSnakeGame()
 
 func main() {
 
@@ -45,15 +42,18 @@ func main() {
 		Mode:      0,
 	})
 
-	machine.I2C0.Configure(machine.I2CConfig{SCL: machine.I2C0_SCL_PIN, SDA: machine.I2C0_SDA_PIN})
+	machine.I2C0.Configure(machine.I2CConfig{
+		SCL: machine.I2C0_SCL_PIN,
+		SDA: machine.I2C0_SDA_PIN,
+	})
 	accel = lis3dh.New(machine.I2C0)
 	accel.Address = lis3dh.Address0
 	accel.Configure()
 
 	display = st7789.New(machine.SPI0,
-		machine.TFT_RST, // TFT_RESET
-		machine.TFT_WRX, // TFT_DC
-		machine.TFT_CS,  // TFT_CS
+		machine.TFT_RST,       // TFT_RESET
+		machine.TFT_WRX,       // TFT_DC
+		machine.TFT_CS,        // TFT_CS
 		machine.TFT_BACKLIGHT) // TFT_LITE
 
 	display.Configure(st7789.Config{
@@ -88,7 +88,7 @@ func main() {
 	black := color.RGBA{0, 0, 0, 255}
 	display.FillScreen(black)
 
-	Info()
+	//Info()
 
 	for {
 		switch menu() {
@@ -96,7 +96,7 @@ func main() {
 			Badge()
 			break
 		case 1:
-			snakeGame.Start()
+			snakeGame.Loop()
 			break
 		case 2:
 			Leds()
@@ -106,6 +106,8 @@ func main() {
 			break
 		case 4:
 			Music()
+		case 5:
+			Info()
 			break
 		default:
 			break

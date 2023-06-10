@@ -3,24 +3,29 @@ package main
 import (
 	"image/color"
 	"math/rand"
+	"strconv"
+	"strings"
 	"time"
 
-	"tinygo.org/x/tinyfont"
 	"tinygo.org/x/tinyfont/freesans"
+	"tinygo.org/x/tinyfont/proggy"
+
+	"tinygo.org/x/tinyfont"
 )
 
 const (
-	BCK = iota
-	SNAKE
-	APPLE
-	TEXT
+	GameSplash = iota
+	GameStart
+	GamePlay
+	GameOver
+	GameQuit
 )
 
 const (
-	START = iota
-	PLAY
-	GAMEOVER
-	QUIT
+	SnakeUp = iota
+	SnakeDown
+	SnakeLeft
+	SnakeRight
 )
 
 const (
@@ -30,8 +35,8 @@ const (
 
 var (
 	// Those variable are there for a more easy reading of the apple shape.
-	re = colors[APPLE] // red
-	bk = colors[BCK]   // background
+	re = colors[RED]   // red
+	bk = colors[BLACK] // background
 	gr = colors[SNAKE] // green
 
 	// The array is split for a visual purpose too.
@@ -55,114 +60,122 @@ type Snake struct {
 	direction int16
 }
 
-type Game struct {
-	colors         []color.RGBA
+type SnakeGame struct {
 	snake          Snake
 	appleX, appleY int16
 	status         uint8
+	score          int
+	frame, delay   int
 }
 
-func (g *Game) Start() {
-	g.status = START
-	scoreStr := []byte("SCORE: 123")
-	display.FillScreen(g.colors[BCK])
-	play := true
-	for play {
-		switch g.status {
-		case START:
-			display.FillScreen(g.colors[BCK])
+var splashed = false
+var scoreStr string
 
-			tinyfont.WriteLine(&display, &freesans.Bold24pt7b, 0, 50, "SNAKE", g.colors[TEXT])
-			tinyfont.WriteLine(&display, &freesans.Regular12pt7b, 8, 100, "Press A", g.colors[TEXT])
-
-			time.Sleep(2 * time.Second)
-			for g.status == START {
-				if !btnA.Get() {
-					g.status = PLAY
-				}
-				if !btnB.Get() {
-					g.status = QUIT
-				}
-
-			}
-			break
-		case GAMEOVER:
-			display.FillScreen(g.colors[BCK])
-
-			scoreStr[7] = 48 + uint8((g.snake.length-3)/100)
-			scoreStr[8] = 48 + uint8(((g.snake.length-3)/10)%10)
-			scoreStr[9] = 48 + uint8((g.snake.length-3)%10)
-
-			tinyfont.WriteLine(&display, &freesans.Regular12pt7b, 8, 50, "GAME OVER", g.colors[TEXT])
-			tinyfont.WriteLine(&display, &freesans.Regular12pt7b, 8, 100, "Press A", g.colors[TEXT])
-			tinyfont.WriteLine(&display, &tinyfont.TomThumb, 50, 120, string(scoreStr), g.colors[TEXT])
-
-			time.Sleep(2 * time.Second)
-			for g.status == GAMEOVER {
-				if !btnA.Get() {
-					g.status = START
-				}
-				if !btnB.Get() {
-					g.status = QUIT
-				}
-
-			}
-			break
-		case PLAY:
-			display.FillScreen(g.colors[BCK])
-
-			g.snake.body[0][0] = 0
-			g.snake.body[0][1] = 3
-			g.snake.body[1][0] = 0
-			g.snake.body[1][1] = 2
-			g.snake.body[2][0] = 0
-			g.snake.body[2][1] = 1
-
-			g.snake.length = 3
-			g.snake.direction = 3
-			g.drawSnake()
-			g.createApple()
-			time.Sleep(2000 * time.Millisecond)
-			for g.status == PLAY {
-
-				// Faster
-				if !btnLeft.Get() {
-					if g.snake.direction != 3 {
-						g.snake.direction = 0
-					}
-				}
-				if !btnUp.Get() {
-					if g.snake.direction != 2 {
-						g.snake.direction = 1
-					}
-				}
-				if !btnDown.Get() {
-					if g.snake.direction != 1 {
-						g.snake.direction = 2
-					}
-				}
-				if !btnRight.Get() {
-					if g.snake.direction != 0 {
-						g.snake.direction = 3
-					}
-				}
-				if !btnB.Get() {
-					g.status = QUIT
-				}
-				g.moveSnake()
-				time.Sleep(100 * time.Millisecond)
-			}
-
-			break
-		case QUIT:
-			display.FillScreen(g.colors[BCK])
-			play = false
-			break
-		}
+func NewSnakeGame() *SnakeGame {
+	return &SnakeGame{
+		snake: Snake{
+			body: [768][2]int16{
+				{0, 3},
+				{0, 2},
+				{0, 1},
+			},
+			length:    3,
+			direction: SnakeLeft,
+		},
+		appleX: 5,
+		appleY: 5,
+		status: GameSplash,
+		delay:  120,
 	}
 }
 
-func (g *Game) collisionWithSnake(x, y int16) bool {
+func (g *SnakeGame) Splash() {
+	if !splashed {
+		g.splash()
+		splashed = true
+	}
+}
+
+func (g *SnakeGame) Start() {
+	display.FillScreen(bk)
+
+	g.initSnake()
+	g.drawSnake()
+	g.createApple()
+
+	g.status = GamePlay
+}
+
+func (g *SnakeGame) Play(direction int) {
+	if direction != -1 && ((g.snake.direction == SnakeUp && direction != SnakeDown) ||
+		(g.snake.direction == SnakeDown && direction != SnakeUp) ||
+		(g.snake.direction == SnakeLeft && direction != SnakeRight) ||
+		(g.snake.direction == SnakeRight && direction != SnakeLeft)) {
+		g.snake.direction = int16(direction)
+	}
+
+	g.moveSnake()
+}
+
+func (g *SnakeGame) Over() {
+	display.FillScreen(bk)
+	splashed = false
+
+	g.status = GameOver
+}
+
+func (g *SnakeGame) splash() {
+	display.FillScreen(bk)
+
+	logo := `
+      ___            ___            ___     
+     /  /\          /  /\          /  /\    
+    /  /::\        /  /::|        /  /::\   
+   /__/:/\:\      /  /:|:|       /  /:/\:\  
+  _\_ \:\ \:\    /  /:/|:|__    /  /::\ \:\ 
+ /__/\ \:\ \:\  /__/:/ |:| /\  /__/:/\:\_\:\
+ \  \:\ \:\_\/  \__\/  |:|/:/  \__\/  \:\/:/
+  \  \:\_\:\        |  |:/:/        \__\::/ 
+   \  \:\/:/        |__|::/         /  /:/  
+    \  \::/         /__/:/         /__/:/   
+     \__\/          \__\/          \__\/    
+               ___            ___     
+              /  /\          /  /\    
+             /  /:/         /  /::\   
+            /  /:/         /  /:/\:\  
+           /  /::\____    /  /::\ \:\ 
+          /__/:/\:::::\  /__/:/\:\ \:\
+          \__\/~|:|~~~~  \  \:\ \:\_\/
+             |  |:|       \  \:\ \:\  
+             |  |:|        \  \:\_\/  
+             |__|:|         \  \:\    
+              \__\|          \__\/     
+`
+	for i, line := range strings.Split(strings.TrimSuffix(logo, "\n"), "\n") {
+		tinyfont.WriteLine(&display, &proggy.TinySZ8pt7b, 0, int16(-6+i*11), line+"\n", gr)
+	}
+
+	tinyfont.WriteLine(&display, &freesans.Regular18pt7b, 30, 130, "Press A to start", colors[RED])
+
+	if g.score > 0 {
+		scoreStr = strconv.Itoa(g.score)
+		tinyfont.WriteLineRotated(&display, &freesans.Regular12pt7b, 300, 200, "SCORE: "+scoreStr, colors[TEXT], tinyfont.ROTATION_270)
+	}
+}
+
+func (g *SnakeGame) initSnake() {
+	g.snake.body[0][0] = 0
+	g.snake.body[0][1] = 3
+	g.snake.body[1][0] = 0
+	g.snake.body[1][1] = 2
+	g.snake.body[2][0] = 0
+	g.snake.body[2][1] = 1
+
+	g.snake.length = 3
+	g.snake.direction = SnakeRight
+}
+
+func (g *SnakeGame) collisionWithSnake(x, y int16) bool {
 	for i := int16(0); i < g.snake.length; i++ {
 		if x == g.snake.body[i][0] && y == g.snake.body[i][1] {
 			return true
@@ -171,7 +184,7 @@ func (g *Game) collisionWithSnake(x, y int16) bool {
 	return false
 }
 
-func (g *Game) createApple() {
+func (g *SnakeGame) createApple() {
 	g.appleX = int16(rand.Int31n(16))
 	g.appleY = int16(rand.Int31n(13))
 	for g.collisionWithSnake(g.appleX, g.appleY) {
@@ -181,21 +194,21 @@ func (g *Game) createApple() {
 	g.drawApple(g.appleX, g.appleY)
 }
 
-func (g *Game) moveSnake() {
+func (g *SnakeGame) moveSnake() {
 	x := g.snake.body[0][0]
 	y := g.snake.body[0][1]
 
 	switch g.snake.direction {
-	case 0:
+	case SnakeLeft:
 		x--
 		break
-	case 1:
+	case SnakeUp:
 		y--
 		break
-	case 2:
+	case SnakeDown:
 		y++
 		break
-	case 3:
+	case SnakeRight:
 		x++
 		break
 	}
@@ -213,17 +226,20 @@ func (g *Game) moveSnake() {
 	}
 
 	if g.collisionWithSnake(x, y) {
-		g.status = GAMEOVER
+		g.score = int(g.snake.length - 3)
+		g.Over()
+
+		return
 	}
 
 	// draw head
-	g.drawSnakePartial(x, y, g.colors[SNAKE])
+	g.drawSnakePartial(x, y, colors[SNAKE])
 	if x == g.appleX && y == g.appleY {
 		g.snake.length++
 		g.createApple()
 	} else {
 		// remove tail
-		g.drawSnakePartial(g.snake.body[g.snake.length-1][0], g.snake.body[g.snake.length-1][1], g.colors[BCK])
+		g.drawSnakePartial(g.snake.body[g.snake.length-1][0], g.snake.body[g.snake.length-1][1], colors[BLACK])
 	}
 	for i := g.snake.length - 1; i > 0; i-- {
 		g.snake.body[i][0] = g.snake.body[i-1][0]
@@ -233,16 +249,79 @@ func (g *Game) moveSnake() {
 	g.snake.body[0][1] = y
 }
 
-func (g *Game) drawApple(x, y int16) {
+func (g *SnakeGame) drawApple(x, y int16) {
 	display.FillRectangleWithBuffer(10*x, 10*y, 10, 10, appleBuf)
 }
 
-func (g *Game) drawSnake() {
+func (g *SnakeGame) drawSnake() {
 	for i := int16(0); i < g.snake.length; i++ {
-		g.drawSnakePartial(g.snake.body[i][0], g.snake.body[i][1], g.colors[SNAKE])
+		g.drawSnakePartial(g.snake.body[i][0], g.snake.body[i][1], colors[SNAKE])
 	}
 }
 
-func (g *Game) drawSnakePartial(x, y int16, c color.RGBA) {
+func (g *SnakeGame) drawSnakePartial(x, y int16, c color.RGBA) {
 	display.FillRectangle(10*x, 10*y, 9, 9, c)
+}
+
+func (g *SnakeGame) Loop() {
+	g.status = GameSplash
+	splashed = false
+	for {
+		g.update()
+		if g.status == GameQuit {
+			break
+		}
+		time.Sleep(100 * time.Millisecond)
+	}
+}
+
+func (g *SnakeGame) update() {
+	switch g.status {
+	case GameSplash:
+		g.Splash()
+		if !btnA.Get() {
+			g.Start()
+		}
+		if !btnB.Get() {
+			g.status = GameOver
+		}
+		break
+
+	case GamePlay:
+		switch {
+		case !btnB.Get():
+			g.Over()
+			break
+		case !btnRight.Get():
+			g.Play(SnakeRight)
+			break
+
+		case !btnLeft.Get():
+			g.Play(SnakeLeft)
+			break
+
+		case !btnDown.Get():
+			g.Play(SnakeDown)
+			break
+
+		case !btnUp.Get():
+			g.Play(SnakeUp)
+			break
+
+		default:
+			g.Play(-1)
+			break
+		}
+		break
+	case GameQuit:
+	case GameOver:
+		g.Splash()
+
+		if !btnA.Get() {
+			g.Start()
+		}
+		if !btnB.Get() {
+			g.status = GameQuit
+		}
+	}
 }

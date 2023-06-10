@@ -17,6 +17,7 @@ func menu() int16 {
 		"Rainbow LEDs",
 		"Accelerometer",
 		"Music!",
+		"Info",
 	}
 
 	bgColor := color.RGBA{109, 0, 140, 255}
