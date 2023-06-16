@@ -201,3 +201,13 @@ Configure your name and use the awesome TinyGo-powered badge!
 Note:
 
 Find the different type of fonts you can use [here](https://github.com/tinygo-org/tinyfont)
+
+
+## Next steps & ideas
+                              
+For example:
+
+- Add new effects and animations to the badge code, like Multipass from _The fifth element_ movie.
+- Use the 3-axis accelerometer to check if the wearer has tripped and fall down and send an SOS alarm (SOS in morse code is ... --- ...  , use the buzzer and RGB LEDs)
+- Improve Marble game (examples/marble-game).
+- Create your own Rubber Duck attack (examples/rubber-duck).

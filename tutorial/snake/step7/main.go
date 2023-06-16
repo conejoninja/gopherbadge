@@ -60,9 +60,9 @@ func main() {
 
 	// Create a new display device
 	display = st7789.New(machine.SPI0,
-		machine.TFT_RST,       // TFT_RESET
-		machine.TFT_WRX,       // TFT_DC
-		machine.TFT_CS,        // TFT_CS
+		machine.TFT_RST, // TFT_RESET
+		machine.TFT_WRX, // TFT_DC
+		machine.TFT_CS,  // TFT_CS
 		machine.TFT_BACKLIGHT) // TFT_LITE
 
 	display.Configure(st7789.Config{
@@ -192,6 +192,10 @@ func drawSnakePartial(x, y int16, c color.RGBA) {
 func createApple() {
 	appleX = int16(rand.Int31n(WIDTHBLOCKS))
 	appleY = int16(rand.Int31n(HEIGHTBLOCKS))
+	for collisionWithSnake(appleX, appleY) {
+		appleX = int16(rand.Int31n(WIDTHBLOCKS))
+		appleY = int16(rand.Int31n(HEIGHTBLOCKS))
+	}
 	drawSnakePartial(appleX, appleY, red)
 }
 

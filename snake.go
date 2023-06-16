@@ -185,11 +185,11 @@ func (g *SnakeGame) collisionWithSnake(x, y int16) bool {
 }
 
 func (g *SnakeGame) createApple() {
-	g.appleX = int16(rand.Int31n(16))
-	g.appleY = int16(rand.Int31n(13))
+	g.appleX = int16(rand.Int31n(WIDTHBLOCKS))
+	g.appleY = int16(rand.Int31n(HEIGHTBLOCKS))
 	for g.collisionWithSnake(g.appleX, g.appleY) {
-		g.appleX = int16(rand.Int31n(16))
-		g.appleY = int16(rand.Int31n(13))
+		g.appleX = int16(rand.Int31n(WIDTHBLOCKS))
+		g.appleY = int16(rand.Int31n(HEIGHTBLOCKS))
 	}
 	g.drawApple(g.appleX, g.appleY)
 }
