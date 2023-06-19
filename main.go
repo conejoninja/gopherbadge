@@ -57,7 +57,7 @@ func main() {
 		machine.TFT_BACKLIGHT) // TFT_LITE
 
 	display.Configure(st7789.Config{
-		Rotation: st7789.ROTATION_90,
+		Rotation: st7789.ROTATION_270,
 		Height:   320,
 	})
 
@@ -88,7 +88,7 @@ func main() {
 	black := color.RGBA{0, 0, 0, 255}
 	display.FillScreen(black)
 
-	//Info()
+	Info()
 
 	for {
 		switch menu() {

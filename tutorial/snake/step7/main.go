@@ -60,13 +60,13 @@ func main() {
 
 	// Create a new display device
 	display = st7789.New(machine.SPI0,
-		machine.TFT_RST, // TFT_RESET
-		machine.TFT_WRX, // TFT_DC
-		machine.TFT_CS,  // TFT_CS
+		machine.TFT_RST,       // TFT_RESET
+		machine.TFT_WRX,       // TFT_DC
+		machine.TFT_CS,        // TFT_CS
 		machine.TFT_BACKLIGHT) // TFT_LITE
 
 	display.Configure(st7789.Config{
-		Rotation: st7789.ROTATION_90,
+		Rotation: st7789.ROTATION_270,
 		Height:   320,
 	})
 

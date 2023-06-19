@@ -131,7 +131,7 @@ func handleDisplay() {
 	})
 
 	display.Configure(st7789.Config{
-		Rotation: st7789.ROTATION_90,
+		Rotation: st7789.ROTATION_270,
 		Height:   320,
 		Width:    240,
 	})
