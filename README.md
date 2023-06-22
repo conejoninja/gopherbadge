@@ -104,3 +104,8 @@ After the image has been generated, the make command will flash it to the board.
 
 
 👏 Congratulations! It is now your own customized Gopher Badge.
+
+
+
+# Not powering up with battery connected
+If your battery is connected and switching your badge to ON doesn't power it up, **disconnect your battery, switch to ON and connect your battery again**. If it doesn't power up, then check the battery charge.

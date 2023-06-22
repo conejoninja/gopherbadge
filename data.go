@@ -11,7 +11,7 @@ var (
 )
 
 const (
-	DefaultName          = "@_CONEJO"
+	DefaultName          = "@TinyGolang"
 	DefaultTitleA1       = "Go Compiler"
 	DefaultTitleA2       = "Small Places"
 	DefaultMarqueeTop    = "This badge"

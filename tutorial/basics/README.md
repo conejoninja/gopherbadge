@@ -209,5 +209,8 @@ For example:
 
 - Add new effects and animations to the badge code, like Multipass from _The fifth element_ movie.
 - Use the 3-axis accelerometer to check if the wearer has tripped and fall down and send an SOS alarm (SOS in morse code is ... --- ...  , use the buzzer and RGB LEDs)
-- Improve Marble game (examples/marble-game).
 - Create your own Rubber Duck attack (examples/rubber-duck).
+
+
+# Not powering up with battery connected
+If your battery is connected and switching your badge to ON doesn't power it up, **disconnect your battery, switch to ON and connect your battery again**. If it doesn't power up, then check the battery charge.
