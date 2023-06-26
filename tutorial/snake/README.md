@@ -47,7 +47,7 @@ Let's get started!
 This step is to get familiar with the display and the drawing functions.
 
 ```
-tinygo flash -target pybadge ./step0/main.go
+tinygo flash -target gopher-badge ./tutorial/snake/step0
 ```
 
 Once the Gopher Badge is flashed correctly, a green pixel will appear on the middle of the screen. Feel free to change the values of `display.SetPixel` (towards the bottom of the ./step0/main.go file) and see where the 
@@ -60,7 +60,7 @@ pixel appears!
 Run the code.
 
 ```
-tinygo flash -target pybadge ./step1/main.go
+tinygo flash -target gopher-badge ./tutorial/snake/step1
 ```
 
 ![A bigger pixel](./assets/step1.jpg)
@@ -72,7 +72,7 @@ Instead of a pixel, we are drawing a 10x10 green rectangle.
 Run the code.
 
 ```
-tinygo flash -target pybadge ./step2/main.go
+tinygo flash -target gopher-badge ./tutorial/snake/step2
 ```
 
 We listen to the input buttons and move our rectangle across the display.
@@ -84,7 +84,7 @@ We listen to the input buttons and move our rectangle across the display.
 Run the code.
 
 ```
-tinygo flash -target pybadge ./step3/main.go
+tinygo flash -target gopher-badge ./tutorial/snake/step3
 ```
 
 Have you noticed the snake at the previous step was kind of slow? That was because display.FillScreen draws the whole display and is a slow process, we could improve the speed if only re-draw the pixels that has 
@@ -97,7 +97,7 @@ changed.
 Run the code.
 
 ```
-tinygo flash -target pybadge ./step4/main.go
+tinygo flash -target gopher-badge ./tutorial/snake/step4
 ```
 
 In the previous step, the 10x10 _snake_ was moving by 1 pixel each time, we need to divide our display (160x128) in a 10x10 grid so the snake will move a whole block each time.
@@ -109,7 +109,7 @@ In the previous step, the 10x10 _snake_ was moving by 1 pixel each time, we need
 Run the code.
 
 ```
-tinygo flash -target pybadge ./step5/main.go
+tinygo flash -target gopher-badge ./tutorial/snake/step5
 ```
 
 Our little snake grew from 1 block to 3 block length.
@@ -121,7 +121,7 @@ Our little snake grew from 1 block to 3 block length.
 Feed our snake some red apples so it can grow
 
 ```
-tinygo flash -target pybadge ./step6/main.go
+tinygo flash -target gopher-badge ./tutorial/snake/step6
 ```
 
 ![I wanna grow up!](./assets/step6.jpg)
@@ -133,7 +133,7 @@ The display will show some blue circles. When a button is pressed a ring will be
 Run the code.
 
 ```
-tinygo flash -target pybadge ./step7/main.go
+tinygo flash -target gopher-badge ./tutorial/snake/step7
 ```
 
 ![Let's play](./assets/step7_01.gif)
