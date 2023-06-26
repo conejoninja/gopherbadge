@@ -2,7 +2,7 @@ package main
 
 import (
 	"machine"
-	"machine/usb/midi"
+	"machine/usb/adc/midi"
 	"time"
 )
 
