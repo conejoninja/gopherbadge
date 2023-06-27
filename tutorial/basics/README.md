@@ -3,7 +3,7 @@
 ## What you need
 
     - Gopher Badge aka the cutest badge out there
-    - Personal computer with Go 1.20 and TinyGo 0.27 installed, and a serial port.
+    - Personal computer with Go 1.20 and TinyGo 0.28 installed, and a serial port.
 
 ## Installation
 
