@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+
 	"github.com/conejoninja/gopherbadge/cmd/logos"
 )
 
@@ -14,6 +15,7 @@ const (
 	gopherconUK        = "./cmd/assets/gopherconuk.jpg"
 	gopherconUS        = "./cmd/assets/gopherconus.jpg"
 	wasmio             = "./cmd/assets/wasmio.jpg"
+	golab              = "./cmd/assets/golab.jpg"
 )
 
 func main() {
@@ -49,5 +51,6 @@ func confs() map[string]string {
 		"gopherconuk": gopherconUK,
 		"gopherconus": gopherconUS,
 		"wasmio":      wasmio,
+		"golab":       golab,
 	}
 }
