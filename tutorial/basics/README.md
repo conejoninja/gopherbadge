@@ -3,7 +3,7 @@
 ## What you need
 
     - Gopher Badge aka the cutest badge out there
-    - Personal computer with Go 1.20 and TinyGo 0.27 installed, and a serial port.
+    - Personal computer with Go 1.20 and TinyGo 0.28 installed, and a serial port.
 
 ## Installation
 
@@ -48,7 +48,7 @@ This tests that you can compile and flash your Gopher badge with TinyGo code, by
 
 
 ```
-tinygo flash -target gopher-badge ./step0
+tinygo flash -target gopher-badge ./tutorial/basics/step0
 ```
 
 Once the Gopher badge is flashed correctly, the built-in LED labeled "D13" (on the back) should start to turn on and off once per second. Now everything is setup correctly and you are ready to continue.
@@ -61,7 +61,7 @@ Once the Gopher badge is flashed correctly, the built-in LED labeled "D13" (on t
 Run the code.
 
 ```
-tinygo flash -target gopher-badge ./step1
+tinygo flash -target gopher-badge ./tutorial/basics/step1
 ```
 
 When you press the A button, the built-in LED on the back should turn on.
@@ -77,7 +77,7 @@ the _B_ button is pressed instead of the _A_ button.
 Run the code.
 
 ```
-tinygo flash -target gopher-badge ./step2
+tinygo flash -target gopher-badge ./tutorial/basics/step2
 ```
 
 
@@ -92,7 +92,7 @@ The 2 neopixels should light up green and red alternatively.
 Run the code.
 
 ```
-tinygo flash -target gopher-badge ./step3
+tinygo flash -target gopher-badge ./tutorial/basics/step3
 ```
 
 The 2 neopixels should light up in different colors depending on which button you press.
@@ -110,7 +110,7 @@ After deploying it should look like this:
 Run the code.
 
 ```
-tinygo flash -target gopher-badge ./step4/main.go
+tinygo flash -target gopher-badge ./tutorial/basics/step4/
 ```
 
 The message "Hello Gophers!" should appear on the display.
@@ -124,7 +124,7 @@ The message "Hello Gophers!" should appear on the display.
 Run the code.
 
 ```
-tinygo flash -target gopher-badge ./step5/main.go
+tinygo flash -target gopher-badge ./tutorial/basics/step5/
 ```
 
 ![step5](./assets/step5.png)
@@ -139,7 +139,7 @@ When a button is pressed a ring will be shown around its corresponding circle.
 Run the code.
 
 ```
-tinygo flash -target gopher-badge ./step6
+tinygo flash -target gopher-badge ./tutorial/basics/step6
 ```
 
 ![step6](./assets/step6.png)
@@ -151,7 +151,7 @@ The display will show a bar for each X,Y,Z axis. Move the Gopher badge to see it
 Run the code.
 
 ```
-tinygo flash -target gopher-badge ./step7/main.go
+tinygo flash -target gopher-badge ./tutorial/basics/step7
 ```
 
 Press the buttons and create your melody.
@@ -162,11 +162,10 @@ Press the buttons and create your melody.
 Run the code.
 
 ```
-tinygo flash -target gopher-badge ./step8/main.go
+tinygo flash -target gopher-badge ./tutorial/basics/step8
 ```
 
-Go to any online midi player with USB capabilities, like [Muted.io/piano](https://muted.io/piano/). Make sure the Gopher Badge MIDI is enabled (this website works better in Chrome, other browsers might not detect the
-Gopher Badge as a MIDI device).
+Go to any online midi player with USB capabilities, like [Muted.io/piano](https://muted.io/piano/). Make sure the Gopher Badge MIDI is enabled (this website works better in Chrome, other browsers might not detect the Gopher Badge as a MIDI device).
 Press the buttons and create your melody.
 
 
@@ -178,14 +177,12 @@ Press the buttons and create your melody.
 Run the code.
 
 ```
-tinygo flash -target gopher-badge ./step9/main.go
+tinygo flash -target gopher-badge ./tutorial/basics/step9
 ```
 
-Your Gopher Badge, connected to a computer, will act as a mouse now. Pressing the A button will perform a reft click, B button a right click, and inclining the badge will move the mouse's pointer thanks to the 
-badge's built-in accelerometer.
+Your Gopher Badge, connected to a computer, will act as a mouse now. Pressing the A button will perform a left click, B button a right click, and inclining the badge will move the mouse's pointer thanks to the badge's built-in accelerometer.
 
-Good job in completing the basic tutorials. Now can check out the more complicated
-tutorials
+Good job in completing the basic tutorials. Now can check out the more advanced tutorials!
 
 ### Snake Game
 

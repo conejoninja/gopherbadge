@@ -5,6 +5,9 @@ import (
 	"time"
 )
 
+var bzrPin machine.Pin
+var btnA, btnB, btnUp, btnLeft, btnDown, btnRight machine.Pin
+
 func main() {
 
 	btnA = machine.BUTTON_A
@@ -20,12 +23,19 @@ func main() {
 	btnDown.Configure(machine.PinConfig{Mode: machine.PinInput})
 	btnRight.Configure(machine.PinConfig{Mode: machine.PinInput})
 
+	bzrPin = machine.SPEAKER
+	bzrPin.Configure(machine.PinConfig{Mode: machine.PinOutput})
+
+	speaker := machine.SPEAKER_ENABLE
+	speaker.Configure(machine.PinConfig{Mode: machine.PinOutput})
+	speaker.High()
+
 	for {
 		if !btnA.Get() {
 			tone(1046)
 		}
 		if !btnB.Get() {
-			break
+			tone(1500)
 		}
 
 		if !btnLeft.Get() {
