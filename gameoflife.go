@@ -65,9 +65,9 @@ func drawGrid() {
 				// no change, so skip
 				continue
 			case universe.Cell(idx) == game.Alive:
-				display.FillRectangle(1+cellSize*int16(cols), cellSize*int16(rows), cellSize, cellSize, colors[WHITE])
-			default: // game.Dead
 				display.FillRectangleWithBuffer(1+cellSize*int16(cols), cellSize*int16(rows), cellSize, cellSize, cellBuf)
+			default: // game.Dead
+				display.FillRectangle(1+cellSize*int16(cols), cellSize*int16(rows), cellSize, cellSize, colors[WHITE])
 			}
 
 		}
