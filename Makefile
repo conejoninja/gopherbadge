@@ -25,6 +25,11 @@ prepare-tinygo:
 
 flash-tinygo: prepare-tinygo perform-flash
 
+prepare-golab:
+	go run cmd/main.go -conf=golab
+
+flash-golab: prepare-golab perform-flash
+
 perform-flash:
 	tinygo flash -size short -target gopher-badge -ldflags="-X main.YourName='$(NAME)' \
 	-X main.YourTitleA1='$(TITLEA1)' -X main.YourTitleA2='$(TITLEA2)'  -X main.YourTitleB1='$(TITLEB1)' \
