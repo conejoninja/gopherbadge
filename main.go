@@ -106,7 +106,11 @@ func main() {
 			break
 		case 4:
 			Music()
+			break
 		case 5:
+			GameOfLife()
+			break
+		case 6:
 			Info()
 			break
 		default:
