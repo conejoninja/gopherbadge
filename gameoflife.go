@@ -38,6 +38,8 @@ func GameOfLife() {
 	universe.Randomize(population)
 	universe.Read(gamebuffer)
 
+	x, y, z := accel.ReadRawAcceleration()
+
 	for {
 		drawGrid()
 		display.Display()
@@ -45,6 +47,11 @@ func GameOfLife() {
 
 		universe.Tick()
 
+		x, y, z = accel.ReadRawAcceleration()
+		if x < (-31000) || x > 31000 || y < (-31000) || y > 31000 || z < (-31000) || z > 31000 {
+			universe.Reset()
+			universe.Randomize(population)
+		}
 		if !btnB.Get() {
 			break
 		}
