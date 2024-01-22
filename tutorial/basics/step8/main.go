@@ -22,7 +22,7 @@ func main() {
 	btnRight.Configure(machine.PinConfig{Mode: machine.PinInput})
 
 	notes := []midi.Note{midi.C4, midi.D4, midi.E4, midi.F4, midi.G4, midi.B4}
-	midichannel := uint8(0) // MIDI channels are 0-15 e.g. 1-16
+	midichannel := uint8(1) // MIDI channels are 0-15 e.g. 1-16
 
 	note := -1
 	oldNote := -1
@@ -47,6 +47,7 @@ func main() {
 		if !btnDown.Get() {
 			note = 5
 		}
+		println(note)
 		if note != oldNote {
 			if oldNote != -1 {
 				midi.Midi.NoteOff(0, midichannel, notes[oldNote], 50)
