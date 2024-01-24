@@ -23,6 +23,8 @@ const (
 	RED
 	SNAKE
 	TEXT
+	ORANGE
+	PURPLE
 )
 
 var colors = []color.RGBA{
@@ -31,6 +33,8 @@ var colors = []color.RGBA{
 	color.RGBA{250, 0, 0, 255},
 	color.RGBA{0, 200, 0, 255},
 	color.RGBA{160, 160, 160, 255},
+	color.RGBA{255, 153, 51, 255},
+	color.RGBA{153, 51, 255, 255},
 }
 
 var snakeGame = NewSnakeGame()
@@ -111,6 +115,9 @@ func main() {
 			GameOfLife()
 			break
 		case 6:
+			ColorGame()
+			break
+		case 7:
 			Info()
 			break
 		default:
