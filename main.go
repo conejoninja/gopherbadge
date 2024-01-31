@@ -91,6 +91,14 @@ func main() {
 	Info()
 
 	for {
+		//myNameIsRainbow("Natalie")
+		//time.Sleep(500 * time.Millisecond)
+		blinkyRainbow("I'm here", "for the SWAG")
+		time.Sleep(500 * time.Millisecond)
+
+	}
+
+	for {
 		switch menu() {
 		case 0:
 			Badge()
