@@ -12,7 +12,7 @@ import (
 const TICS = 5
 
 func main() {
-	usb.Product = "Gopher Violin"
+	usb.Product = "Eddie VAR Halen"
 
 	machine.I2C0.Configure(machine.I2CConfig{SCL: machine.I2C0_SCL_PIN, SDA: machine.I2C0_SDA_PIN})
 	accel := lis3dh.New(machine.I2C0)
