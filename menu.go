@@ -15,7 +15,7 @@ func menu() int16 {
 	options := []string{
 		"Badge",
 		"GopherCon Schedule",
-		"GopherCon ADventure",
+		"GopherCon Adventure",
 		"Snake",
 		"Rainbow LEDs",
 		"Accelerometer",
