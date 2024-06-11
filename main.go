@@ -100,24 +100,30 @@ func main() {
 			Badge()
 			break
 		case 1:
-			snakeGame.Loop()
+			schedule(0, 0)
 			break
 		case 2:
-			Leds()
+			adventure()
 			break
 		case 3:
-			Accel3D()
+			snakeGame.Loop()
 			break
 		case 4:
-			Music()
+			Leds()
 			break
 		case 5:
-			GameOfLife()
+			Accel3D()
 			break
 		case 6:
-			ColorGame()
+			Music()
 			break
 		case 7:
+			GameOfLife()
+			break
+		case 8:
+			ColorGame()
+			break
+		case 9:
 			Info()
 			break
 		default:

@@ -3,6 +3,7 @@ package main
 import (
 	"image/color"
 	"time"
+
 	"tinygo.org/x/tinyfont/freemono"
 
 	"tinygo.org/x/tinydraw"
@@ -13,6 +14,8 @@ func menu() int16 {
 	display.FillScreen(color.RGBA{0, 0, 0, 255})
 	options := []string{
 		"Badge",
+		"GopherCon Schedule",
+		"GopherCon ADventure",
 		"Snake",
 		"Rainbow LEDs",
 		"Accelerometer",
