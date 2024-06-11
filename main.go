@@ -91,6 +91,7 @@ func main() {
 
 	black := color.RGBA{0, 0, 0, 255}
 	display.FillScreen(black)
+	setCustomData()
 
 	Info()
 

@@ -32,7 +32,6 @@ var quit bool
 var badgeLogo string
 
 func Badge() {
-	setCustomData()
 	quit = false
 	display.FillScreen(colors[BLACK])
 
