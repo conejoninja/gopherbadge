@@ -25,7 +25,6 @@ const (
 )
 
 var rainbow []color.RGBA
-var pressed uint8
 var quit bool
 
 //go:embed logo.bin
