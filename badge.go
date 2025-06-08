@@ -26,12 +26,14 @@ const (
 
 var rainbow []color.RGBA
 var quit bool
+var selected uint8
 
 //go:embed logo.bin
 var badgeLogo string
 
 func Badge() {
 	quit = false
+	selected = 0
 	display.FillScreen(colors[BLACK])
 
 	rainbow = make([]color.RGBA, 256)
@@ -40,31 +42,51 @@ func Badge() {
 	}
 
 	for {
-		showLogoBin()
-		if quit {
-			break
+		switch selected {
+		case 7: // last +1
+			selected = 0
+			fallthrough
+		case 0:
+			showLogoBin()
+			if quit {
+				break
+			}
+		case 1:
+			logoPurpleHardware()
+			if quit {
+				break
+			}
+		case 2:
+			myNameIsRainbow(YourName)
+			if quit {
+				break
+			}
+		case 3:
+			blinkyRainbow(YourTitleA1, YourTitleA2)
+			if quit {
+				break
+			}
+		case 4:
+			scroll(YourMarqueeTop, YourMarqueeMiddle, YourMarqueeBottom)
+			if quit {
+				break
+			}
+		case 5:
+			QR(YourQRText)
+			if quit {
+				break
+			}
+		case 255: // max
+			selected = 6 // last one
+			fallthrough
+		case 6:
+			blinkyRainbow(YourTitleB1, YourTitleB2)
+			if quit {
+				break
+			}
+		default:
+			selected = 0
 		}
-		logoPurpleHardware()
-		if quit {
-			break
-		}
-		myNameIsRainbow(YourName)
-		if quit {
-			break
-		}
-		blinkyRainbow(YourTitleA1, YourTitleA2)
-		if quit {
-			break
-		}
-		scroll(YourMarqueeTop, YourMarqueeMiddle, YourMarqueeBottom)
-		if quit {
-			break
-		}
-		QR(YourQRText)
-		if quit {
-			break
-		}
-		blinkyRainbow(YourTitleB1, YourTitleB2)
 		if quit {
 			break
 		}
@@ -134,13 +156,26 @@ func myNameIsRainbow(name string) {
 			tinyfont.WriteLineColors(&display, &freesans.Bold9pt7b, (WIDTH-int16(w32))/2, 140, name, rainbow[i:])
 		}
 		i += 2
+
 		if !btnB.Get() {
 			quit = true
-			break
+			return
+		}
+
+		if !btnRight.Get() {
+			selected++
+			return
+		}
+		if !btnLeft.Get() {
+			selected--
+			return
 		}
 	}
+
+	selected++
 }
 
+// unused
 func blinky(topline, bottomline string) {
 	display.FillScreen(colors[WHITE])
 
@@ -190,9 +225,20 @@ func blinky(topline, bottomline string) {
 
 		if !btnB.Get() {
 			quit = true
-			break
+			return
+		}
+
+		if !btnRight.Get() {
+			selected++
+			return
+		}
+		if !btnLeft.Get() {
+			selected--
+			return
 		}
 	}
+
+	selected++
 }
 
 func blinkyRainbow(topline, bottomline string) {
@@ -224,9 +270,20 @@ func blinkyRainbow(topline, bottomline string) {
 
 		if !btnB.Get() {
 			quit = true
-			break
+			return
+		}
+
+		if !btnRight.Get() {
+			selected++
+			return
+		}
+		if !btnLeft.Get() {
+			selected--
+			return
 		}
 	}
+
+	selected++
 }
 
 func scroll(topline, middleline, bottomline string) {
@@ -266,19 +323,31 @@ func scroll(topline, middleline, bottomline string) {
 	}
 
 	display.SetScrollArea(0, 0)
+	defer func() {
+		display.SetScroll(0)
+		display.StopScroll()
+	}()
+
 	for k := 0; k < 4; k++ {
 		for i := int16(319); i >= 0; i-- {
-
 			if !btnB.Get() {
 				quit = true
-				break
+				return
 			}
+
+			if !btnRight.Get() {
+				selected++
+				return
+			}
+			if !btnLeft.Get() {
+				selected--
+				return
+			}
+
 			display.SetScroll(i)
 			time.Sleep(10 * time.Millisecond)
 		}
 	}
-	display.SetScroll(0)
-	display.StopScroll()
 }
 
 func logoPurpleHardware() {
@@ -306,10 +375,28 @@ func logoPurpleHardware() {
 	tinyfont.WriteLine(&display, &freesans.Regular18pt7b, 6, 109, "Purple", white)
 	tinyfont.WriteLine(&display, &freesans.Regular18pt7b, 6, 153, "Hardware by", white)
 
-	time.Sleep(logoDisplayTime / 3)
-	if !btnB.Get() {
-		quit = true
+	refreshIntervals := uint8(7)
+	displayTime := logoDisplayTime / 3
+
+	for i := uint8(0); i < refreshIntervals; i++ {
+		time.Sleep(displayTime / time.Duration(refreshIntervals))
+
+		if !btnB.Get() {
+			quit = true
+			return
+		}
+
+		if !btnRight.Get() {
+			selected++
+			return
+		}
+		if !btnLeft.Get() {
+			selected--
+			return
+		}
 	}
+
+	selected++
 }
 
 func getRainbowRGB(i uint8) color.RGBA {
@@ -345,10 +432,28 @@ func showLogoBin() {
 		}
 		display.FillRectangleWithBuffer(0, int16(i), WIDTH, 1, row)
 	}
-	time.Sleep(logoDisplayTime)
-	if !btnB.Get() {
-		quit = true
+
+	refreshIntervals := uint8(20)
+
+	for i := uint8(0); i < refreshIntervals; i++ {
+		time.Sleep(logoDisplayTime / time.Duration(refreshIntervals))
+
+		if !btnB.Get() {
+			quit = true
+			return
+		}
+
+		if !btnRight.Get() {
+			selected++
+			return
+		}
+		if !btnLeft.Get() {
+			selected--
+			return
+		}
 	}
+
+	selected++
 }
 
 func QR(msg string) {
@@ -375,10 +480,27 @@ func QR(msg string) {
 		}
 	}
 
-	time.Sleep(logoDisplayTime)
-	if !btnB.Get() {
-		quit = true
+	refreshIntervals := uint8(20)
+
+	for i := uint8(0); i < refreshIntervals; i++ {
+		time.Sleep(logoDisplayTime / time.Duration(refreshIntervals))
+
+		if !btnB.Get() {
+			quit = true
+			return
+		}
+
+		if !btnRight.Get() {
+			selected++
+			return
+		}
+		if !btnLeft.Get() {
+			selected--
+			return
+		}
 	}
+
+	selected++
 }
 
 func getFontWidthSize(text string) (w32 uint32, size byte) {
