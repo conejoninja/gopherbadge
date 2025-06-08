@@ -93,6 +93,24 @@ func Badge() {
 	}
 }
 
+func handleNavigation() bool {
+	if !btnB.Get() {
+		quit = true
+		return true
+	}
+
+	if !btnRight.Get() {
+		selected++
+		return true
+	}
+	if !btnLeft.Get() {
+		selected--
+		return true
+	}
+
+	return false
+}
+
 func myNameIs(name string) {
 	display.FillScreen(colors[WHITE])
 
@@ -157,17 +175,7 @@ func myNameIsRainbow(name string) {
 		}
 		i += 2
 
-		if !btnB.Get() {
-			quit = true
-			return
-		}
-
-		if !btnRight.Get() {
-			selected++
-			return
-		}
-		if !btnLeft.Get() {
-			selected--
+		if handleNavigation() {
 			return
 		}
 	}
@@ -223,17 +231,7 @@ func blinky(topline, bottomline string) {
 			tinyfont.WriteLine(&display, &freesans.Bold9pt7b, (WIDTH-int16(w32bottom))/2, 200, bottomline, colors[WHITE])
 		}
 
-		if !btnB.Get() {
-			quit = true
-			return
-		}
-
-		if !btnRight.Get() {
-			selected++
-			return
-		}
-		if !btnLeft.Get() {
-			selected--
+		if handleNavigation() {
 			return
 		}
 	}
@@ -268,17 +266,7 @@ func blinkyRainbow(topline, bottomline string) {
 			tinyfont.WriteLine(&display, &freesans.Bold9pt7b, (WIDTH-int16(w32bottom))/2, 200, bottomline, getRainbowRGB(uint8(i*12)))
 		}
 
-		if !btnB.Get() {
-			quit = true
-			return
-		}
-
-		if !btnRight.Get() {
-			selected++
-			return
-		}
-		if !btnLeft.Get() {
-			selected--
+		if handleNavigation() {
 			return
 		}
 	}
@@ -330,17 +318,7 @@ func scroll(topline, middleline, bottomline string) {
 
 	for k := 0; k < 4; k++ {
 		for i := int16(319); i >= 0; i-- {
-			if !btnB.Get() {
-				quit = true
-				return
-			}
-
-			if !btnRight.Get() {
-				selected++
-				return
-			}
-			if !btnLeft.Get() {
-				selected--
+			if handleNavigation() {
 				return
 			}
 
@@ -381,17 +359,7 @@ func logoPurpleHardware() {
 	for i := uint8(0); i < refreshIntervals; i++ {
 		time.Sleep(displayTime / time.Duration(refreshIntervals))
 
-		if !btnB.Get() {
-			quit = true
-			return
-		}
-
-		if !btnRight.Get() {
-			selected++
-			return
-		}
-		if !btnLeft.Get() {
-			selected--
+		if handleNavigation() {
 			return
 		}
 	}
@@ -438,17 +406,7 @@ func showLogoBin() {
 	for i := uint8(0); i < refreshIntervals; i++ {
 		time.Sleep(logoDisplayTime / time.Duration(refreshIntervals))
 
-		if !btnB.Get() {
-			quit = true
-			return
-		}
-
-		if !btnRight.Get() {
-			selected++
-			return
-		}
-		if !btnLeft.Get() {
-			selected--
+		if handleNavigation() {
 			return
 		}
 	}
@@ -485,17 +443,7 @@ func QR(msg string) {
 	for i := uint8(0); i < refreshIntervals; i++ {
 		time.Sleep(logoDisplayTime / time.Duration(refreshIntervals))
 
-		if !btnB.Get() {
-			quit = true
-			return
-		}
-
-		if !btnRight.Get() {
-			selected++
-			return
-		}
-		if !btnLeft.Get() {
-			selected--
+		if handleNavigation() {
 			return
 		}
 	}
