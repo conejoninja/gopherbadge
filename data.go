@@ -76,8 +76,10 @@ type Day struct {
 var scheduleData = []Day{
 	{"Monday June 16 (TZ GMT+2)",
 		[]Talk{
-			{"09:00", "17:00", "WORKSHOPS", "(dedicated ticket required)", "Leonardo Royal Hotel"},
-			{"15:00", "18:00", "", "Hacking with the TinyGo Team", "Leonardo Royal Hotel"},
+			{"09:00", "17:00", "WORKSHOPS", "(dedicated ticket required)", "Leonardo Royal Hotel Berlin Alexanderplatz"},
+			{"15:00", "18:00", "", "Hacking with the TinyGo Team", "Leonardo Royal Hotel Berlin Alexanderplatz"},
+			{"", "", "", "", ""},
+			{"", "", "", "", ""},
 		},
 	},
 	{"Tuesday June 17 (TZ GMT+2)",
