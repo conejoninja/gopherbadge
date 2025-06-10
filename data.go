@@ -159,7 +159,7 @@ type Scene struct {
 
 var sceneData = []Scene{
 	{
-		"As usually, you are reading Golang Weekly, among very useful information you notice the CFP for GopherCon AU is open! It will be in Sydney, 6-8th November. What do you want to do?",
+		"As usually, you are reading Golang Weekly, among very useful information you notice the CFP for GopherCon EU is open! It will be in Berlin, 16-19th June. What do you want to do?",
 		"Oh no! you don't have any idea for a talk.",
 		"Let's talk about AI, it's the new pink!",
 		"You already have the slides for a TinyGo talk.",
@@ -188,7 +188,7 @@ var sceneData = []Scene{
 		4, 4, 4,
 	},
 	{
-		"BEEP BEEP BEEP. It's your alarm clock. Today is the day, your need to prepare and go to the airport, Sydney and a bunch of gophers are waiting for you.",
+		"BEEP BEEP BEEP. It's your alarm clock. Today is the day, your need to prepare and go to the airport, Berlin and a bunch of gophers are waiting for you.",
 		"Take a taxi to the airport. No time to waste!",
 		"Have Liam's signature pancakes.",
 		"Sleep a bit more",
