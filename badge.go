@@ -326,6 +326,8 @@ func scroll(topline, middleline, bottomline string) {
 			time.Sleep(10 * time.Millisecond)
 		}
 	}
+
+	selected++
 }
 
 func logoPurpleHardware() {
