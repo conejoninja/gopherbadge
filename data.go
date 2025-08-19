@@ -76,7 +76,7 @@ type Day struct {
 var scheduleData = []Day{
 	{"Monday August 25 (TZ EDT)",
 		[]Talk{
-			{"18:00", "20:00", "WOMEN WHO GO MEETUP", "Angelica Hill, Cassie Coyle, Kate Pong & Samantha Coyle", "ART Midtown, Rooftop - 26th Flr"},
+			{"18:00", "20:00", "WOMEN WHO GO MEETUP", "Angelica Hill, Cassie Coyle,", "Kate Pong & Samantha Coyle"},
 			{"", "", "", "", ""},
 			{"", "", "", "", ""},
 			{"", "", "", "", ""},
@@ -128,7 +128,7 @@ var scheduleData = []Day{
 			{"14:55", "15:20", "Plowing through data:", "building flexible pipelines with Go", "Mindy Ratcliff"},
 			{"15:20", "16:00", "Afternoon beverage break", "Room 503/504, Level 5, North Javits", ""},
 			{"16:00", "16:25", "Understanding escape analysis", "to speed up your code", "PJ Malloy"},
-			{"16:30", "16:55", "Scaling LLMs with Go: production", "patterns for handling millions of AI requests", "John Wang"},
+			{"16:30", "16:55", "Scaling LLMs with Go: production patterns", "for handling millions of AI requests", "John Wang"},
 			{"17:00", "17:45", "Porting the TypeScript compiler", "to Go for a 10x speedup", "Jake Bailey"},
 			{"18:00", "21:00", "Rooftop reception with Skool", "Rooftop, 570 10th Avenue", ""},
 			{"19:00", "21:00", "Asian alliance meetup", "Arjun Malhotra, Ellen Gao,", "Hannah Kim & Madhav Jovrajani"},
