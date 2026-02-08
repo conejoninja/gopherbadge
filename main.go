@@ -40,6 +40,7 @@ var colors = []color.RGBA{
 }
 
 var snakeGame = NewSnakeGame()
+var reflexGame = NewReflexGame()
 
 func main() {
 
@@ -103,7 +104,7 @@ func main() {
 			Badge()
 			break
 		case 1:
-			schedule(0, 0)
+			reflexGame.Loop()
 			break
 		case 2:
 			adventure()
