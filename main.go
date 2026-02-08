@@ -124,7 +124,7 @@ func main() {
 			GameOfLife()
 			break
 		case 8:
-			ColorGame()
+			Weather()
 			break
 		case 9:
 			Info()

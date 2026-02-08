@@ -21,7 +21,7 @@ func menu() int16 {
 		"Pacman",
 		"Music!",
 		"Game of Life",
-		"Color Game",
+		"Weather",
 		"Info",
 	}
 
