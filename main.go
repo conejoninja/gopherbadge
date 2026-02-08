@@ -97,8 +97,6 @@ func main() {
 	display.FillScreen(black)
 	setCustomData()
 
-	Info()
-
 	for {
 		switch menu() {
 		case 0:
