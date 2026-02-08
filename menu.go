@@ -18,7 +18,7 @@ func menu() int16 {
 		"GopherCon Adventure",
 		"Snake",
 		"Rainbow LEDs",
-		"Accelerometer",
+		"Pacman",
 		"Music!",
 		"Game of Life",
 		"Color Game",

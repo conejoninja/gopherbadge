@@ -41,6 +41,7 @@ var colors = []color.RGBA{
 
 var snakeGame = NewSnakeGame()
 var reflexGame = NewReflexGame()
+var pacGame = NewPacmanGame()
 
 func main() {
 
@@ -116,7 +117,7 @@ func main() {
 			Leds()
 			break
 		case 5:
-			Accel3D()
+			pacGame.Loop()
 			break
 		case 6:
 			Music()
