@@ -45,27 +45,54 @@ func menu() int16 {
 
 	tinydraw.FilledCircle(&display, 28, 35, 4, color.RGBA{200, 200, 0, 255})
 
-	released := true
+	btnUpPressed := false
+	btnDownPressed := false
+	btnAPressed := false
+
 	for {
-		if released && !btnUp.Get() && selected > 0 {
-			selected--
-			tinydraw.FilledCircle(&display, 28, 35+20*selected, 4, color.RGBA{200, 200, 0, 255})
-			tinydraw.FilledCircle(&display, 28, 35+20*(selected+1), 4, bgColor)
-		}
-		if released && !btnDown.Get() && selected < (numOpts-1) {
-			selected++
-			tinydraw.FilledCircle(&display, 28, 35+20*selected, 4, color.RGBA{200, 200, 0, 255})
-			tinydraw.FilledCircle(&display, 28, 35+20*(selected-1), 4, bgColor)
-		}
-		if released && !btnA.Get() {
-			break
-		}
-		if btnA.Get() && btnUp.Get() && btnDown.Get() {
-			released = true
+		// Detect button press on transition from released to pressed
+		if !btnUp.Get() {
+			if !btnUpPressed {
+				prevSelected := selected
+				if selected > 0 {
+					selected--
+				} else {
+					selected = numOpts - 1 // Wrap to bottom
+				}
+				tinydraw.FilledCircle(&display, 28, 35+20*selected, 4, color.RGBA{200, 200, 0, 255})
+				tinydraw.FilledCircle(&display, 28, 35+20*prevSelected, 4, bgColor)
+			}
+			btnUpPressed = true
 		} else {
-			released = false
+			btnUpPressed = false
 		}
-		time.Sleep(200 * time.Millisecond)
+
+		if !btnDown.Get() {
+			if !btnDownPressed {
+				prevSelected := selected
+				if selected < (numOpts - 1) {
+					selected++
+				} else {
+					selected = 0 // Wrap to top
+				}
+				tinydraw.FilledCircle(&display, 28, 35+20*selected, 4, color.RGBA{200, 200, 0, 255})
+				tinydraw.FilledCircle(&display, 28, 35+20*prevSelected, 4, bgColor)
+			}
+			btnDownPressed = true
+		} else {
+			btnDownPressed = false
+		}
+
+		if !btnA.Get() {
+			if !btnAPressed {
+				break
+			}
+			btnAPressed = true
+		} else {
+			btnAPressed = false
+		}
+
+		time.Sleep(100 * time.Millisecond)
 	}
 	return selected
 }
