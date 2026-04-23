@@ -1,65 +1,107 @@
 package main
 
 import (
-	_ "embed"
-	"image/color"
+	"machine"
+	"runtime"
+	"strconv"
 	"time"
+
 	"tinygo.org/x/tinyfont"
 	"tinygo.org/x/tinyfont/freesans"
-
-	qrcode "github.com/skip2/go-qrcode"
 )
 
-const QR_INFO_SIZE = 180
-
 func Info() {
+	// Scan I2C once at startup (slow operation)
+	i2cDevices := scanI2C()
 
-	qr, err := qrcode.New("https://gopherbadge.com/", qrcode.Medium)
-	if err != nil {
-		println(err, 123)
-	}
+	// Draw static elements once
+	display.FillScreen(colors[BLACK])
+	lineHeight := int16(22)
+	valueX := int16(105) // X position where dynamic values start
 
-	qrbytes := qr.Bitmap()
-	size := int16(len(qrbytes))
+	// Title
+	tinyfont.WriteLine(&display, &freesans.Bold12pt7b, 10, 25, "System Status", colors[YELLOW])
 
-	factor := int16(QR_INFO_SIZE / len(qrbytes))
+	// Draw static labels once
+	y := int16(50)
+	tinyfont.WriteLine(&display, &freesans.Regular9pt7b, 10, y, "CPU Temp:", colors[WHITE])
+	y += lineHeight
+	tinyfont.WriteLine(&display, &freesans.Regular9pt7b, 10, y, "Heap:", colors[WHITE])
+	y += lineHeight
 
-	bx := (QR_INFO_SIZE - size*factor) / 2
-	by := (QR_INFO_SIZE - size*factor) / 2
-	display.FillScreen(color.RGBA{109, 0, 140, 255})
-	for y := int16(0); y < size; y++ {
-		for x := int16(0); x < size; x++ {
-			if qrbytes[y][x] {
-				display.FillRectangle(bx+x*factor, by+y*factor, factor, factor, colors[0])
-			} else {
-				display.FillRectangle(bx+x*factor, by+y*factor, factor, factor, colors[1])
+	// I2C device info (static, scanned once at startup)
+	i2cStr := "I2C: " + strconv.Itoa(len(i2cDevices)) + " device(s)"
+	tinyfont.WriteLine(&display, &freesans.Regular9pt7b, 10, y, i2cStr, colors[WHITE])
+	y += lineHeight
+
+	// List detected I2C addresses
+	if len(i2cDevices) > 0 {
+		addrStr := "  Addr: "
+		for i, addr := range i2cDevices {
+			if i > 0 {
+				addrStr += ", "
+			}
+			addrStr += "0x" + strconv.FormatInt(int64(addr), 16)
+			if len(addrStr) > 35 { // Truncate if too long
+				addrStr += "..."
+				break
 			}
 		}
+		tinyfont.WriteLine(&display, &freesans.Regular9pt7b, 10, y, addrStr, colors[TEXT])
 	}
 
-	w32, _ := tinyfont.LineWidth(&freesans.Bold18pt7b, "SCAN")
-	tinyfont.WriteLine(&display, &freesans.Bold18pt7b, QR_INFO_SIZE+((WIDTH-QR_INFO_SIZE)-int16(w32))/2, 45, "SCAN", colors[WHITE])
-
-	w32, _ = tinyfont.LineWidth(&freesans.Bold18pt7b, "ME")
-	tinyfont.WriteLine(&display, &freesans.Bold18pt7b, QR_INFO_SIZE+((WIDTH-QR_INFO_SIZE)-int16(w32))/2, 80, "ME", colors[WHITE])
-
-	w32, _ = tinyfont.LineWidth(&freesans.Bold9pt7b, "Press any")
-	tinyfont.WriteLine(&display, &freesans.Bold9pt7b, QR_INFO_SIZE+((WIDTH-QR_INFO_SIZE)-int16(w32))/2, 120, "Press any", colors[WHITE])
-	w32, _ = tinyfont.LineWidth(&freesans.Bold9pt7b, "button")
-	tinyfont.WriteLine(&display, &freesans.Bold9pt7b, QR_INFO_SIZE+((WIDTH-QR_INFO_SIZE)-int16(w32))/2, 140, "button", colors[WHITE])
-	w32, _ = tinyfont.LineWidth(&freesans.Bold9pt7b, "to continue")
-	tinyfont.WriteLine(&display, &freesans.Bold9pt7b, QR_INFO_SIZE+((WIDTH-QR_INFO_SIZE)-int16(w32))/2, 160, "to continue", colors[WHITE])
-
-	w32, _ = tinyfont.LineWidth(&freesans.Bold9pt7b, "Visit https://gopherbadge.com/")
-	tinyfont.WriteLine(&display, &freesans.Bold9pt7b, (WIDTH-int16(w32))/2, QR_INFO_SIZE+25, "Visit https://gopherbadge.com/", colors[WHITE])
-	w32, _ = tinyfont.LineWidth(&freesans.Bold9pt7b, "for more information")
-	tinyfont.WriteLine(&display, &freesans.Bold9pt7b, (WIDTH-int16(w32))/2, QR_INFO_SIZE+45, "for more information", colors[WHITE])
+	// Instructions
+	tinyfont.WriteLine(&display, &freesans.Regular9pt7b, 10, 230, "Press any button to exit", colors[TEXT])
 
 	for {
-		time.Sleep(100 * time.Millisecond)
+		y = int16(50)
+
+		// CPU Temperature - clear only value area and redraw
+		display.FillRectangle(valueX, y-15, 215, 20, colors[BLACK])
+		tempMilliC := machine.ReadTemperature()
+		tempC := tempMilliC / 1000
+		tempFrac := (tempMilliC % 1000) / 100
+		if tempFrac < 0 {
+			tempFrac = -tempFrac
+		}
+		tempStr := strconv.Itoa(int(tempC)) + "." + strconv.Itoa(int(tempFrac)) + " C"
+		tinyfont.WriteLine(&display, &freesans.Regular9pt7b, valueX, y, tempStr, colors[WHITE])
+		y += lineHeight
+
+		// Memory stats - clear only value area and redraw
+		display.FillRectangle(valueX-40, y-15, 255, 20, colors[BLACK])
+		var memStats runtime.MemStats
+		runtime.ReadMemStats(&memStats)
+		heapStr := formatBytes(memStats.HeapAlloc) + " / " + formatBytes(memStats.Sys)
+		tinyfont.WriteLine(&display, &freesans.Regular9pt7b, valueX-40, y, heapStr, colors[WHITE])
+
+		time.Sleep(500 * time.Millisecond)
 		if !btnA.Get() || !btnB.Get() || !btnUp.Get() || !btnLeft.Get() || !btnRight.Get() || !btnDown.Get() {
 			break
 		}
 	}
+}
 
+// scanI2C scans the I2C bus for connected devices
+func scanI2C() []uint8 {
+	var devices []uint8
+	buf := make([]byte, 1)
+
+	// Scan common I2C addresses (0x08 to 0x77)
+	for addr := uint8(0x08); addr <= 0x77; addr++ {
+		err := machine.I2C0.Tx(uint16(addr), nil, buf)
+		if err == nil {
+			devices = append(devices, addr)
+		}
+	}
+	return devices
+}
+
+// formatBytes formats bytes as human-readable string
+func formatBytes(b uint64) string {
+	if b < 1024 {
+		return strconv.FormatUint(b, 10) + "B"
+	}
+	kb := b / 1024
+	return strconv.FormatUint(kb, 10) + "KB"
 }
