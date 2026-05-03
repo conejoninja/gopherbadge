@@ -25,6 +25,7 @@ const (
 	TEXT
 	ORANGE
 	PURPLE
+	YELLOW
 )
 
 var colors = []color.RGBA{
@@ -35,6 +36,7 @@ var colors = []color.RGBA{
 	color.RGBA{160, 160, 160, 255},
 	color.RGBA{255, 153, 51, 255},
 	color.RGBA{153, 51, 255, 255},
+	color.RGBA{220, 220, 0, 255},
 }
 
 var snakeGame = NewSnakeGame()
