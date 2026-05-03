@@ -25,6 +25,7 @@ const (
 	TEXT
 	ORANGE
 	PURPLE
+	YELLOW
 )
 
 var colors = []color.RGBA{
@@ -35,9 +36,12 @@ var colors = []color.RGBA{
 	color.RGBA{160, 160, 160, 255},
 	color.RGBA{255, 153, 51, 255},
 	color.RGBA{153, 51, 255, 255},
+	color.RGBA{220, 220, 0, 255},
 }
 
 var snakeGame = NewSnakeGame()
+var reflexGame = NewReflexGame()
+var pacGame = NewPacmanGame()
 
 func main() {
 
@@ -93,15 +97,13 @@ func main() {
 	display.FillScreen(black)
 	setCustomData()
 
-	Info()
-
 	for {
 		switch menu() {
 		case 0:
 			Badge()
 			break
 		case 1:
-			schedule(0, 0)
+			reflexGame.Loop()
 			break
 		case 2:
 			adventure()
@@ -113,7 +115,7 @@ func main() {
 			Leds()
 			break
 		case 5:
-			Accel3D()
+			pacGame.Loop()
 			break
 		case 6:
 			Music()
@@ -122,7 +124,7 @@ func main() {
 			GameOfLife()
 			break
 		case 8:
-			ColorGame()
+			Weather()
 			break
 		case 9:
 			Info()

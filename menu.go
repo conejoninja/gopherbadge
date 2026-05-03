@@ -14,14 +14,14 @@ func menu() int16 {
 	display.FillScreen(color.RGBA{0, 0, 0, 255})
 	options := []string{
 		"Badge",
-		"GopherCon Schedule",
+		"Reflex Tester",
 		"GopherCon Adventure",
 		"Snake",
 		"Rainbow LEDs",
-		"Accelerometer",
+		"Pacman",
 		"Music!",
 		"Game of Life",
-		"Color Game",
+		"Weather",
 		"Info",
 	}
 

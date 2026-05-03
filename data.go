@@ -64,105 +64,6 @@ func setCustomData() {
 	}
 }
 
-type Talk struct {
-	startHour, endHour, line1, line2, line3 string
-}
-
-type Day struct {
-	title string
-	talks []Talk
-}
-
-var scheduleData = []Day{
-	{"Monday August 25 (TZ EDT)",
-		[]Talk{
-			{"18:00", "20:00", "WOMEN WHO GO MEETUP", "Angelica Hill, Cassie Coyle,", "Kate Pong & Samantha Coyle"},
-			{"", "", "", "", ""},
-			{"", "", "", "", ""},
-			{"", "", "", "", ""},
-		},
-	},
-	{"Tuesday August 26 (TZ EDT)",
-		[]Talk{
-			{"07:00", "11:00", "Morning Coffee Break", "Foyer, Level 4, North Javits", ""},
-			{"07:00", "17:30", "Registration & Gopher Gear Shop", "Foyer, Level 5, North Javits", ""},
-			{"08:30", "12:30", "WORKSHOP: Building and deployin AI", "agents with Go", "Johnny Boursiquot"},
-			{"08:30", "12:30", "WORKSHOP: Profiling and optimizing", "Go programs", "Cory LaNou"},
-			{"08:30", "17:30", "WORKSHOP: AI-powered systems in Go:", "RAG & tool calling", "Florin Patan"},
-			{"08:30", "17:30", "WORKSHOP", "Ultimate Go", "Miki Tebeka"},
-			{"08:30", "17:30", "WORKSHOP", "Ultimate software design and engineering", "William Kennedy"},
-			{"08:30", "17:30", "", "HALLWAY TRACK", "Foyer, Level 4, North Javits"},
-			{"09:00", "12:00", "Contributors summit", "Ian Cottrell, Michael Knyszek", "& Michael Pratt"},
-			{"09:00", "17:00", "Challenge series: how deep", "does the code go?", "Neil Primmer & Benji Vesterby"},
-			{"10:00", "16:00", "TINYGO HARDWARE HACK SESSION", "Ron Evans & Patricio Whittingslow", "Room 409/411, Level 4, North Javits"},
-			{"10:00", "16:00", "Community Roundtables", "Room 404/405, Level 4, North Javits", ""},
-			{"12:00", "13:30", "Grab & Go lunch", "Foyer, Level 4, North Javits", ""},
-			{"13:30", "16:30", "Community day:", "Meet the Go team", "Room 413, Level 4, North Javits"},
-			{"13:30", "17:30", "WORKSHOP: Advanced Go for", "experienced programmers", "Johnny Boursiquot"},
-			{"13:30", "17:30", "WORKSHOP: Advanced testing", "in Go programs", "Cory LaNou"},
-			{"13:30", "17:30", "WORKSHOP: Go concurrency: debugging", "goroutines and channels", "Derek Parker"},
-			{"15:00", "17:00", "Afternoon break", "Foyer, Level 4, North Javits", ""},
-			{"17:00", "19:00", "Meetup organizers (past, present & future)", "Benji Vesterby, Cassie Coyle", "& Samantha Coyle"},
-			{"18:00", "20:00", "Neurospicy meetup", "Andy Haskell, Charles Pustejovsky,", "Kaylyn Gibilterra & Erik St. Martin"},
-			{"20:00", "22:00", "RainGo Connection Meetup", "Angelica Hill, Kris Brandow", "& Zaq? Question"},
-		},
-	},
-	{"Wednesday August 27 (TZ EDT)",
-		[]Talk{
-			{"08:00", "10:00", "Coffee with the exhibitors", "Room 503/504, Level 5, North Javits", ""},
-			{"08:00", "17:00", "Challenge series: how deep", "does the code go?", "Neil Primmer & Benji Vesterby"},
-			{"08:00", "17:45", "GopherCon exhibition", "Room 503/504, Level 5, North Javits", ""},
-			{"08:00", "17:45", "", "HALLWAY TRACK", "Foyer, Level 5, North Javits"},
-			{"09:05", "09:30", "Go's next frontier", "Cameron Balahan", ""},
-			{"09:35", "10:00", "Demystifying AI agents:", "A new primitive for flow control", "Solomon Hykes"},
-			{"10:05", "10:30", "Goroutines and cells:", "Lessons in goal-directed systems", "Carlisia Campos"},
-			{"10:30", "11:15", "Morning beverage break", "Room 503/504, Level 5, North Javits", ""},
-			{"10:45", "11:00", "Go: a taylor-made language", "for AWS lambda", "Capital One"},
-			{"11:15", "11:40", "The code you reviewed is", "not the code you built", "Jess McClintock"},
-			{"11:45", "12:10", "My protobuf module is faster", " than yours (I cheated)", "Tom Lyons"},
-			{"12:15", "12:40", "Building a decentralize social", "media app with Go and ATProto", "Gautam Dey"},
-			{"12:15", "12:40", "Building a decentralize social", "media app with Go and ATProto", "Gautam Dey"},
-			{"12:40", "14:25", "Lunch service", "Room 503/504, Level 5, North Javits", "Bayer"},
-			{"13:40", "14:25", "Lightning talks", "Angelica Hill, Kaylyn Gibilterra,", "James Heller & Sahid Velji"},
-			{"14:25", "14:50", "Analysis and transformation tools", "for Go codebase modernization", "Alan A. Donovan"},
-			{"14:55", "15:20", "Plowing through data:", "building flexible pipelines with Go", "Mindy Ratcliff"},
-			{"15:20", "16:00", "Afternoon beverage break", "Room 503/504, Level 5, North Javits", ""},
-			{"16:00", "16:25", "Understanding escape analysis", "to speed up your code", "PJ Malloy"},
-			{"16:30", "16:55", "Scaling LLMs with Go: production patterns", "for handling millions of AI requests", "John Wang"},
-			{"17:00", "17:45", "Porting the TypeScript compiler", "to Go for a 10x speedup", "Jake Bailey"},
-			{"18:00", "21:00", "Rooftop reception with Skool", "Rooftop, 570 10th Avenue", ""},
-			{"19:00", "21:00", "Asian alliance meetup", "Arjun Malhotra, Ellen Gao,", "Hannah Kim & Madhav Jovrajani"},
-			{"19:00", "21:00", "United Fo meetup", "Edmondo Porcu, Johnny Boursiquot", "& Kris BRandow"},
-		},
-	},
-	{"Thursday August 28 (TZ EDT)",
-		[]Talk{
-			{"08:00", "10:00", "Coffee with the exhibitors", "Room 503/504, Level 5, North Javits", ""},
-			{"08:00", "16:00", "Challenge series: how deep", "does the code go?", "Neil Primmer & Benji Vesterby"},
-			{"08:00", "16:00", "GopherCon exhibition", "Room 503/504, Level 5, North Javits", ""},
-			{"08:00", "17:30", "", "HALLWAY TRACK", "Foyer, Level 5, North Javits"},
-			{"08:00", "18:00", "Attendee services & Gopher Gear Shop", "Foyer, Level 5, North Javits", ""},
-			{"08:40", "08:55", "From chaos to cohesion:", "a community of practive story", "Capital One"},
-			{"09:00", "09:05", "", "WELCOME BACK, GOPHERS!", ""},
-			{"09:05", "09:30", "An operating system in Go", "Patricio Whittingslow", ""},
-			{"09:35", "10:05", "Go's trace tooling", "and concurrency", "William Kennedy"},
-			{"10:10", "10:35", "Profiling request latency", "with critical path analysis", "Felix Geisendorfer"},
-			{"10:35", "11:05", "Morning beverage break", "Room 503/504, Level 5, North Javits", ""},
-			{"11:05", "11:30", "Invisible insight: strategies for", "auto-instrumenting go apps", "Hannah Kim"},
-			{"11:35", "12:00", "Next-gen AI tooling", "with MCP servers in Go", "Katie Hockman"},
-			{"12:05", "12:30", "Supercharging ML pipelines", "with Go", "Vaidehi Thete"},
-			{"12:30", "14:15", "Lunch service", "Room 503/504, Level 5, North Javits", ""},
-			{"13:30", "14:15", "Lightning talks", "Angelica Hill, Kaylyn Gibilterra,", "James Heller & Sahid Velji"},
-			{"14:15", "14:45", "Go faster: integrating CUDA", "in Go for GPU acceleration", "Sam Burns"},
-			{"14:45", "15:15", "Go plays nice with your computer", "race detection and freedom", "Reghav Roy"},
-			{"15:15", "15:45", "Afternoon beverage break", "Room 503/504, Level 5, North Javits", ""},
-			{"15:45", "16:10", "Advancing Go garbage collection", "with Green Tea", "Michael Knyszek"},
-			{"16:15", "16:40", "The Go cryptography state of the union", "Filippo Valsorda", ""},
-			{"16:45", "17:30", "AI & Go: opportunities & challenges", "Johnny Boursiquote, David Soria, Gari Singh,", "Ian Cottrell, Jaana Dogan & Solomon Hykes"},
-		},
-	},
-}
-
 type Scene struct {
 	description, optionA, optionB, optionC string
 	sceneA, sceneB, sceneC                 int
@@ -354,7 +255,7 @@ var sceneData = []Scene{
 		26, 26, 26,
 	},
 	{
-		"You notice there's a SCHEDULE function in your badge, you could navigate today's schedule and pick your favourite talks you want to attend.",
+		"You notice there's a REFLEX TESTER in your badge, you could test your reaction time while waiting for the next talk.",
 		"An Operating System in Go - Patricio Whittingslow",
 		"Goroutines and cells - Carlisia Campos",
 		"Next-gen AI tooling - Katie Hockman",
