@@ -18,6 +18,7 @@ var (
 	cellSize   int16  = 6
 
 	wh = colors[WHITE]
+	bk = colors[BLACK]
 
 	cellBuf = []color.RGBA{
 		wh, wh, wh, wh, wh, wh,
